@@ -1,19 +1,19 @@
 // =====================
 // Mobile Navigation
 // =====================
-const hamburger = document.querySelector('.hamburger');
-const navMenu = document.querySelector('.nav-menu');
+const hamburger = document.querySelector(".hamburger");
+const navMenu = document.querySelector(".nav-menu");
 
 if (hamburger && navMenu) {
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
+  hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    navMenu.classList.toggle("active");
   });
 
-  document.querySelectorAll('.nav-link').forEach(n =>
-    n.addEventListener('click', () => {
-      hamburger.classList.remove('active');
-      navMenu.classList.remove('active');
+  document.querySelectorAll(".nav-link").forEach((n) =>
+    n.addEventListener("click", () => {
+      hamburger.classList.remove("active");
+      navMenu.classList.remove("active");
     })
   );
 }
@@ -21,53 +21,53 @@ if (hamburger && navMenu) {
 // =====================
 // Social Media Posts - Read More Links & Image Click
 // =====================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   // "Read more" 버튼 → 새 탭 링크
-  document.querySelectorAll('.post-card .read-more').forEach(button => {
-    button.addEventListener('click', function() {
-      const postCard = this.closest('.post-card');
-      const link = postCard.getAttribute('data-link');
-      if (link) window.open(link, '_blank', 'noopener,noreferrer');
+  document.querySelectorAll(".post-card .read-more").forEach((button) => {
+    button.addEventListener("click", function () {
+      const postCard = this.closest(".post-card");
+      const link = postCard.getAttribute("data-link");
+      if (link) window.open(link, "_blank", "noopener,noreferrer");
     });
   });
 
   // 이미지 클릭 → 새 탭 링크
-  document.querySelectorAll('.post-card img').forEach(img => {
-    img.addEventListener('click', function() {
-      const postCard = this.closest('.post-card');
-      const link = postCard.getAttribute('data-link');
-      if (link) window.open(link, '_blank', 'noopener,noreferrer');
+  document.querySelectorAll(".post-card img").forEach((img) => {
+    img.addEventListener("click", function () {
+      const postCard = this.closest(".post-card");
+      const link = postCard.getAttribute("data-link");
+      if (link) window.open(link, "_blank", "noopener,noreferrer");
     });
-    img.style.cursor = 'pointer';
+    img.style.cursor = "pointer";
   });
 });
 
 // =====================
 // Smooth Scroll
 // =====================
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', e => {
-    const href = anchor.getAttribute('href');
-    if (!href || href === '#') return;
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  anchor.addEventListener("click", (e) => {
+    const href = anchor.getAttribute("href");
+    if (!href || href === "#") return;
     const target = document.querySelector(href);
     if (!target) return;
-    e.preventDefault();
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // e.preventDefault();
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 });
 
 // =====================
 // Navbar on Scroll
 // =====================
-window.addEventListener('scroll', () => {
-  const navbar = document.querySelector('.navbar');
+window.addEventListener("scroll", () => {
+  const navbar = document.querySelector(".navbar");
   if (!navbar) return;
   if (window.scrollY > 100) {
-    navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
-    navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+    navbar.style.backgroundColor = "rgba(255, 255, 255, 0.98)";
+    navbar.style.boxShadow = "0 2px 20px rgba(0, 0, 0, 0.1)";
   } else {
-    navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
-    navbar.style.boxShadow = 'none';
+    navbar.style.backgroundColor = "rgba(255, 255, 255, 0.95)";
+    navbar.style.boxShadow = "none";
   }
 });
 
@@ -75,97 +75,98 @@ window.addEventListener('scroll', () => {
 // Section Reveal
 // =====================
 const observer = new IntersectionObserver(
-  entries => {
-    entries.forEach(entry => {
+  (entries) => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = "translateY(0)";
       }
     });
   },
-  { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+  { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
 );
 
-document.querySelectorAll('section').forEach(section => {
-  section.style.opacity = '0';
-  section.style.transform = 'translateY(30px)';
-  section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+document.querySelectorAll("section").forEach((section) => {
+  section.style.opacity = "0";
+  section.style.transform = "translateY(30px)";
+  section.style.transition = "opacity 0.6s ease, transform 0.6s ease";
   observer.observe(section);
 });
 
 // =====================
 // Button hover micro-anim
 // =====================
-document.querySelectorAll('button').forEach(btn => {
-  btn.addEventListener('mouseenter', function () {
-    this.style.transform = 'translateY(-2px)';
-    this.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+document.querySelectorAll("button").forEach((btn) => {
+  btn.addEventListener("mouseenter", function () {
+    this.style.transform = "translateY(-2px)";
+    this.style.boxShadow = "0 8px 25px rgba(0,0,0,0.15)";
   });
-  
-  btn.addEventListener('mouseleave', function () {
-    this.style.transform = 'translateY(0)';
-    this.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+
+  btn.addEventListener("mouseleave", function () {
+    this.style.transform = "translateY(0)";
+    this.style.boxShadow = "0 4px 15px rgba(0,0,0,0.1)";
   });
 });
 
 // =====================
 // Video Modal
 // =====================
-const videoModal = document.getElementById('videoModal');
-const videoModalTitle = document.getElementById('videoModalTitle');
-const videoModalPlayer = document.getElementById('videoModalPlayer');
-const videoModalClose = document.querySelector('.video-modal-close');
+const videoModal = document.getElementById("videoModal");
+const videoModalTitle = document.getElementById("videoModalTitle");
+const videoModalPlayer = document.getElementById("videoModalPlayer");
+const videoModalClose = document.querySelector(".video-modal-close");
 
 if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
   // 비디오 링크 클릭 시 모달 열기
-  document.querySelectorAll('.video-link').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      
+  document.querySelectorAll(".video-link").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      // e.preventDefault();
+
       // 더 정확한 비디오 찾기 방법
-      const video = link.querySelector('video source') || 
-                   link.querySelector('.portfolio-thumbnail video source') ||
-                   link.querySelector('.media-frame video source');
-      
-      const title = link.querySelector('h3')?.textContent || 'Video';
-      
-      console.log('Found video:', video); // 디버깅용
-      console.log('Video src:', video?.src); // 디버깅용
-      
+      const video =
+        link.querySelector("video source") ||
+        link.querySelector(".portfolio-thumbnail video source") ||
+        link.querySelector(".media-frame video source");
+
+      const title = link.querySelector("h3")?.textContent || "Video";
+
+      console.log("Found video:", video); // 디버깅용
+      console.log("Video src:", video?.src); // 디버깅용
+
       if (video && video.src) {
         videoModalPlayer.src = video.src;
         videoModalTitle.textContent = title;
-        videoModal.classList.add('show');
-        document.body.style.overflow = 'hidden';
+        // videoModal.classList.add("show");
+        // document.body.style.overflow = "hidden";
       } else {
-        console.error('Video not found or no source:', link);
+        console.error("Video not found or no source:", link);
       }
     });
   });
 
   // 모달 닫기
-  videoModalClose.addEventListener('click', () => {
-    videoModal.classList.remove('show');
-    document.body.style.overflow = '';
+  videoModalClose.addEventListener("click", () => {
+    videoModal.classList.remove("show");
+    document.body.style.overflow = "";
     videoModalPlayer.pause();
     videoModalPlayer.currentTime = 0;
   });
 
   // 모달 외부 클릭 시 닫기
-  videoModal.addEventListener('click', (e) => {
+  videoModal.addEventListener("click", (e) => {
     if (e.target === videoModal) {
-      videoModal.classList.remove('show');
-      document.body.style.overflow = '';
+      videoModal.classList.remove("show");
+      document.body.style.overflow = "";
       videoModalPlayer.pause();
       videoModalPlayer.currentTime = 0;
     }
   });
 
   // ESC 키로 닫기
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && videoModal.classList.contains('show')) {
-      videoModal.classList.remove('show');
-      document.body.style.overflow = '';
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && videoModal.classList.contains("show")) {
+      videoModal.classList.remove("show");
+      document.body.style.overflow = "";
       videoModalPlayer.pause();
       videoModalPlayer.currentTime = 0;
     }
@@ -176,65 +177,158 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
 // Project Modal
 // =====================
 (() => {
-  const projectModal = document.getElementById('projectModal');
-  const projectModalTitle = document.getElementById('projectModalTitle');
-  const projectModalContent = document.querySelector('.project-modal-content');
-  const projectModalBody = document.querySelector('.project-modal-body');
-  const projectModalClose = document.querySelector('.project-modal-close');
+  const projectModal = document.getElementById("projectModal");
+  const projectModalTitle = document.getElementById("projectModalTitle");
+  const projectModalContent = document.querySelector(".project-modal-content");
+  const projectModalBody = document.querySelector(".project-modal-body");
+  const projectModalClose = document.querySelector(".project-modal-close");
 
   // 프로젝트 데이터
   window.projectData = {
-    'happy-pop-detail': {
-      title: '해피팝 상세페이지',
+    "happy-pop-detail": {
+      title: "해피팝 상세페이지",
       slides: [
-        { src: 'assets/images/해피팝상세페이지/Artboard 1.png', title: '1. 커버' },
-        { src: 'assets/images/해피팝상세페이지/Artboard 2.png', title: '2. 브랜드 스토리' },
-        { src: 'assets/images/해피팝상세페이지/Artboard 3.png', title: '3. 제품 소개' },
-        { src: 'assets/images/해피팝상세페이지/Artboard 4.png', title: '4. 안전성 메시지' },
-        { src: 'assets/images/해피팝상세페이지/GIF/4-1.gif', title: '4-1. 안전성 메시지 애니메이션' },
-        { src: 'assets/images/해피팝상세페이지/Artboard 5.png', title: '5. 인증/스펙' },
-        { src: 'assets/images/해피팝상세페이지/Artboard 6.png', title: '6. 구성품 상세' },
-        { src: 'assets/images/해피팝상세페이지/GIF/6-1.gif', title: '6-1. 구성품 상세 애니메이션' },
-        { src: 'assets/images/해피팝상세페이지/Artboard 7.png', title: '7. 체크포인트' },
-        { src: 'assets/images/해피팝상세페이지/GIF/7-1.gif', title: '7-1. 체크포인트 애니메이션' },
-        { src: 'assets/images/해피팝상세페이지/Artboard 8.png', title: '8. 사용 씬' },
-        { src: 'assets/images/해피팝상세페이지/Artboard 9.png', title: '9. 리뷰/소셜 프루프' }
-      ]
+        {
+          src: "assets/images/해피팝상세페이지/Artboard 1.png",
+          title: "1. 커버",
+        },
+        {
+          src: "assets/images/해피팝상세페이지/Artboard 2.png",
+          title: "2. 브랜드 스토리",
+        },
+        {
+          src: "assets/images/해피팝상세페이지/Artboard 3.png",
+          title: "3. 제품 소개",
+        },
+        {
+          src: "assets/images/해피팝상세페이지/Artboard 4.png",
+          title: "4. 안전성 메시지",
+        },
+        {
+          src: "assets/images/해피팝상세페이지/GIF/4-1.gif",
+          title: "4-1. 안전성 메시지 애니메이션",
+        },
+        {
+          src: "assets/images/해피팝상세페이지/Artboard 5.png",
+          title: "5. 인증/스펙",
+        },
+        {
+          src: "assets/images/해피팝상세페이지/Artboard 6.png",
+          title: "6. 구성품 상세",
+        },
+        {
+          src: "assets/images/해피팝상세페이지/GIF/6-1.gif",
+          title: "6-1. 구성품 상세 애니메이션",
+        },
+        {
+          src: "assets/images/해피팝상세페이지/Artboard 7.png",
+          title: "7. 체크포인트",
+        },
+        {
+          src: "assets/images/해피팝상세페이지/GIF/7-1.gif",
+          title: "7-1. 체크포인트 애니메이션",
+        },
+        {
+          src: "assets/images/해피팝상세페이지/Artboard 8.png",
+          title: "8. 사용 씬",
+        },
+        {
+          src: "assets/images/해피팝상세페이지/Artboard 9.png",
+          title: "9. 리뷰/소셜 프루프",
+        },
+      ],
     },
-    'sns-strategy': {
-      title: 'SNS 운영계획서',
+    "sns-strategy": {
+      title: "SNS 운영계획서",
       slides: [
-        { src: 'assets/images/SNS 운영계획서/Artboard 1.png', title: '1. SNS 운영계획서 1' },
-        { src: 'assets/images/SNS 운영계획서/Artboard 2.png', title: '2. SNS 운영계획서 2' },
-        { src: 'assets/images/SNS 운영계획서/Artboard 3.png', title: '3. SNS 운영계획서 3' },
-        { src: 'assets/images/SNS 운영계획서/Artboard 4.png', title: '4. SNS 운영계획서 4' },
-        { src: 'assets/images/SNS 운영계획서/Artboard 5.png', title: '5. SNS 운영계획서 5' },
-        { src: 'assets/images/SNS 운영계획서/Artboard 6.png', title: '6. SNS 운영계획서 6' },
-        { src: 'assets/images/SNS 운영계획서/Artboard 7.png', title: '7. SNS 운영계획서 7' },
-        { src: 'assets/images/SNS 운영계획서/Artboard 8.png', title: '8. SNS 운영계획서 8' }
-      ]
+        {
+          src: "assets/images/SNS 운영계획서/Artboard 1.png",
+          title: "1. SNS 운영계획서 1",
+        },
+        {
+          src: "assets/images/SNS 운영계획서/Artboard 2.png",
+          title: "2. SNS 운영계획서 2",
+        },
+        {
+          src: "assets/images/SNS 운영계획서/Artboard 3.png",
+          title: "3. SNS 운영계획서 3",
+        },
+        {
+          src: "assets/images/SNS 운영계획서/Artboard 4.png",
+          title: "4. SNS 운영계획서 4",
+        },
+        {
+          src: "assets/images/SNS 운영계획서/Artboard 5.png",
+          title: "5. SNS 운영계획서 5",
+        },
+        {
+          src: "assets/images/SNS 운영계획서/Artboard 6.png",
+          title: "6. SNS 운영계획서 6",
+        },
+        {
+          src: "assets/images/SNS 운영계획서/Artboard 7.png",
+          title: "7. SNS 운영계획서 7",
+        },
+        {
+          src: "assets/images/SNS 운영계획서/Artboard 8.png",
+          title: "8. SNS 운영계획서 8",
+        },
+      ],
     },
-    'happy-pop-video': {
-      title: '해피팝 광고영상기획서',
+    "happy-pop-video": {
+      title: "해피팝 광고영상기획서",
       slides: [
-        { src: 'assets/images/해피팝광고영상기획서/Artboard 1.png', title: '1. 커버' },
-        { src: 'assets/images/해피팝광고영상기획서/Artboard 2.png', title: '2. 스토리보드 1' },
-        { src: 'assets/images/해피팝광고영상기획서/Artboard 3.png', title: '3. 스토리보드 2' },
-        { src: 'assets/images/해피팝광고영상기획서/Artboard 4.png', title: '4. 스토리보드 3' },
-        { src: 'assets/images/해피팝광고영상기획서/Artboard 5.png', title: '5. 스토리보드 4' },
-        { src: 'assets/images/해피팝광고영상기획서/Artboard 6.png', title: '6. 스토리보드 5' }
-      ]
+        {
+          src: "assets/images/해피팝광고영상기획서/Artboard 1.png",
+          title: "1. 커버",
+        },
+        {
+          src: "assets/images/해피팝광고영상기획서/Artboard 2.png",
+          title: "2. 스토리보드 1",
+        },
+        {
+          src: "assets/images/해피팝광고영상기획서/Artboard 3.png",
+          title: "3. 스토리보드 2",
+        },
+        {
+          src: "assets/images/해피팝광고영상기획서/Artboard 4.png",
+          title: "4. 스토리보드 3",
+        },
+        {
+          src: "assets/images/해피팝광고영상기획서/Artboard 5.png",
+          title: "5. 스토리보드 4",
+        },
+        {
+          src: "assets/images/해피팝광고영상기획서/Artboard 6.png",
+          title: "6. 스토리보드 5",
+        },
+      ],
     },
-    'instagram-report': {
-      title: '인스타 운영 및 성과보고서',
+    "instagram-report": {
+      title: "인스타 운영 및 성과보고서",
       slides: [
-        { src: 'assets/images/인스타 운영 및 성과 보고서/Instagram _1.jpg', title: '1. 인스타 운영 및 성과보고서' },
-        { src: 'assets/images/인스타 운영 및 성과 보고서/Instagram _2.jpg', title: '2. 인스타 운영 및 성과보고서' },
-        { src: 'assets/images/인스타 운영 및 성과 보고서/Instagram _3.jpg', title: '3. 인스타 운영 및 성과보고서' },
-        { src: 'assets/images/인스타 운영 및 성과 보고서/Instagram _4.jpg', title: '4. 인스타 운영 및 성과보고서' },
-        { src: 'assets/images/인스타 운영 및 성과 보고서/Instagram _5.jpg', title: '5. 인스타 운영 및 성과보고서' }
-      ]
-    }
+        {
+          src: "assets/images/인스타 운영 및 성과 보고서/Instagram _1.jpg",
+          title: "1. 인스타 운영 및 성과보고서",
+        },
+        {
+          src: "assets/images/인스타 운영 및 성과 보고서/Instagram _2.jpg",
+          title: "2. 인스타 운영 및 성과보고서",
+        },
+        {
+          src: "assets/images/인스타 운영 및 성과 보고서/Instagram _3.jpg",
+          title: "3. 인스타 운영 및 성과보고서",
+        },
+        {
+          src: "assets/images/인스타 운영 및 성과 보고서/Instagram _4.jpg",
+          title: "4. 인스타 운영 및 성과보고서",
+        },
+        {
+          src: "assets/images/인스타 운영 및 성과 보고서/Instagram _5.jpg",
+          title: "5. 인스타 운영 및 성과보고서",
+        },
+      ],
+    },
   };
 
   // 현재 프로젝트와 슬라이드 상태
@@ -250,30 +344,36 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
     currentSlide = 0;
 
     projectModalTitle.textContent = project.title;
-    
+
     // 썸네일 그리드 생성
-    const thumbGrid = document.getElementById('thumbGrid');
+    const thumbGrid = document.getElementById("thumbGrid");
     if (thumbGrid) {
-      thumbGrid.innerHTML = project.slides.map((slide, index) => `
-        <div class="thumbnail-item ${index === 0 ? 'active' : ''}" data-index="${index}">
+      thumbGrid.innerHTML = project.slides
+        .map(
+          (slide, index) => `
+        <div class="thumbnail-item ${
+          index === 0 ? "active" : ""
+        }" data-index="${index}">
           <img src="${slide.src}" alt="${slide.title}" />
         </div>
-      `).join('');
-      
+      `
+        )
+        .join("");
+
       // 썸네일 클릭 이벤트 추가
-      thumbGrid.querySelectorAll('.thumbnail-item').forEach((item, index) => {
-        item.addEventListener('click', () => goToSlide(index));
+      thumbGrid.querySelectorAll(".thumbnail-item").forEach((item, index) => {
+        item.addEventListener("click", () => goToSlide(index));
       });
     }
 
     // 메인 이미지 설정
-    const mainImage = document.getElementById('mainImage');
+    const mainImage = document.getElementById("mainImage");
     if (mainImage && project.slides.length > 0) {
       mainImage.src = project.slides[0].src;
     }
 
     // 페이지 정보 업데이트
-    const pageInfo = document.getElementById('pageInfo');
+    const pageInfo = document.getElementById("pageInfo");
     if (pageInfo) {
       pageInfo.textContent = `1 / ${project.slides.length}`;
     }
@@ -281,14 +381,15 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
     // 페이지넘김 버튼 이벤트 추가
     initNavigationButtons();
 
-    projectModal.classList.add('show');
-    document.body.style.overflow = 'hidden';
+    projectModal.classList.add("show");
+    document.body.style.overflow = "hidden";
   }
 
   // 페이지넘김 기능 함수들
   function goToSlide(index) {
-    if (!currentProject || index < 0 || index >= currentProject.slides.length) return;
-    
+    if (!currentProject || index < 0 || index >= currentProject.slides.length)
+      return;
+
     currentSlide = index;
     updateSlideView();
   }
@@ -308,11 +409,11 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
   function updateSlideView() {
     if (!currentProject) return;
 
-    const mainImage = document.getElementById('mainImage');
-    const pageInfo = document.getElementById('pageInfo');
-    const thumbGrid = document.getElementById('thumbGrid');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
+    const mainImage = document.getElementById("mainImage");
+    const pageInfo = document.getElementById("pageInfo");
+    const thumbGrid = document.getElementById("thumbGrid");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
 
     // 메인 이미지 업데이트
     if (mainImage) {
@@ -321,13 +422,15 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
 
     // 페이지 정보 업데이트
     if (pageInfo) {
-      pageInfo.textContent = `${currentSlide + 1} / ${currentProject.slides.length}`;
+      pageInfo.textContent = `${currentSlide + 1} / ${
+        currentProject.slides.length
+      }`;
     }
 
     // 썸네일 활성 상태 업데이트
     if (thumbGrid) {
-      thumbGrid.querySelectorAll('.thumbnail-item').forEach((item, index) => {
-        item.classList.toggle('active', index === currentSlide);
+      thumbGrid.querySelectorAll(".thumbnail-item").forEach((item, index) => {
+        item.classList.toggle("active", index === currentSlide);
       });
     }
 
@@ -342,14 +445,14 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
 
   // 페이지넘김 버튼 초기화
   function initNavigationButtons() {
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
 
     if (prevBtn) {
-      prevBtn.addEventListener('click', prevSlide);
+      prevBtn.addEventListener("click", prevSlide);
     }
     if (nextBtn) {
-      nextBtn.addEventListener('click', nextSlide);
+      nextBtn.addEventListener("click", nextSlide);
     }
 
     // 초기 버튼 상태 설정
@@ -358,9 +461,9 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
 
   // 프로젝트 모달 닫기
   function closeProjectModal() {
-    projectModal.classList.remove('show');
-    document.body.style.overflow = '';
-    
+    projectModal.classList.remove("show");
+    document.body.style.overflow = "";
+
     // 상태 초기화
     currentProject = null;
     currentSlide = 0;
@@ -368,12 +471,12 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
 
   // 모달 닫기 이벤트
   if (projectModalClose) {
-    projectModalClose.addEventListener('click', closeProjectModal);
+    projectModalClose.addEventListener("click", closeProjectModal);
   }
 
   // 모달 외부 클릭 시 닫기
   if (projectModal) {
-    projectModal.addEventListener('click', (e) => {
+    projectModal.addEventListener("click", (e) => {
       if (e.target === projectModal) {
         closeProjectModal();
       }
@@ -381,13 +484,13 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
   }
 
   // ESC 키로 닫기 및 방향키로 페이지넘김
-  document.addEventListener('keydown', e => {
-    if (projectModal.classList.contains('show')) {
-      if (e.key === 'Escape') {
+  document.addEventListener("keydown", (e) => {
+    if (projectModal.classList.contains("show")) {
+      if (e.key === "Escape") {
         closeProjectModal();
-      } else if (e.key === 'ArrowLeft') {
+      } else if (e.key === "ArrowLeft") {
         prevSlide();
-      } else if (e.key === 'ArrowRight') {
+      } else if (e.key === "ArrowRight") {
         nextSlide();
       }
     }
@@ -395,49 +498,55 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
 
   // 포트폴리오 썸네일 테두리 강제 제거
   function removePortfolioBorders() {
-    const portfolioElements = document.querySelectorAll('.portfolio-thumbnail, .media-frame, .portfolio-item');
-    portfolioElements.forEach(element => {
-      element.style.border = 'none';
-      element.style.outline = 'none';
-      element.style.boxShadow = 'none';
-      
+    const portfolioElements = document.querySelectorAll(
+      ".portfolio-thumbnail, .media-frame, .portfolio-item"
+    );
+    portfolioElements.forEach((element) => {
+      element.style.border = "none";
+      element.style.outline = "none";
+      element.style.boxShadow = "none";
+
       // 자식 요소들도 테두리 제거
-      const children = element.querySelectorAll('*');
-      children.forEach(child => {
-        child.style.border = 'none';
-        child.style.outline = 'none';
-        child.style.boxShadow = 'none';
+      const children = element.querySelectorAll("*");
+      children.forEach((child) => {
+        child.style.border = "none";
+        child.style.outline = "none";
+        child.style.boxShadow = "none";
       });
     });
   }
 
   // 프로젝트 버튼 이벤트 리스너
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener("DOMContentLoaded", () => {
     // 페이지 로드 시 테두리 제거
     removePortfolioBorders();
-    
+
     // DOM 변경 감지하여 테두리 제거
     const observer = new MutationObserver(removePortfolioBorders);
     observer.observe(document.body, { childList: true, subtree: true });
-    const viewProjectBtns = document.querySelectorAll('.view-project-btn');
-    
-    viewProjectBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const projectItem = btn.closest('.project-item');
+    const viewProjectBtns = document.querySelectorAll(".view-project-btn");
+
+    viewProjectBtns.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        // e.preventDefault();
+        const projectItem = btn.closest(".project-item");
         if (!projectItem) return;
-        
-        const projectId = projectItem.getAttribute('data-project');
+
+        const projectId = projectItem.getAttribute("data-project");
         if (!projectId) return;
-        
-        console.log('Project button clicked:', projectId); // 디버깅용
-        
+
+        console.log("Project button clicked:", projectId); // 디버깅용
+
         // 상세페이지는 새 창으로, 나머지는 모달로
-        if (projectId === 'happy-pop-detail') {
+        if (projectId === "happy-pop-detail") {
           // 해피팝 상세페이지는 새 창에서 열기
           const project = window.projectData?.[projectId];
           if (project) {
-            const newWindow = window.open('', '_blank', 'width=800,height=1200,scrollbars=yes,resizable=yes');
+            const newWindow = window.open(
+              "",
+              "_blank",
+              "width=800,height=1200,scrollbars=yes,resizable=yes"
+            );
             newWindow.document.write(`
               <!DOCTYPE html>
               <html>
@@ -473,11 +582,15 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
                   <div class="section">
                     <h2>프로젝트 개요</h2>
                     <div class="all-content">
-                      ${project.slides.map(slide => `
+                      ${project.slides
+                        .map(
+                          (slide) => `
                         <div class="image-item">
                           <img src="${slide.src}" alt="${slide.title}" />
                         </div>
-                      `).join('')}
+                      `
+                        )
+                        .join("")}
                     </div>
                   </div>
                 </div>
