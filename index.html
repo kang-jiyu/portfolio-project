@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio - Social Media Manager</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+
+    <!-- ===== Quick Palette Override & 강제 오버라이드 CSS ===== -->
+    <style>
+      :root {
+        --c-charleston: #282928;
+        --c-darkliver: #515150;
+        --charleston-text: #2c2c2c;
+        --darkliver-text: #2c2c2c;
+        --nav-bg: #d5d4d4;
+        --nav-text: #2c2c2c;
+        --border: #6a6a69;
+
+        /* 포트폴리오 프레임 비율/제목 높이 */
+        --pf-ratio: 16/9;
+        --pf-title-gap: 8px; /* 제목과 썸네일 사이 간격 */
+      }
+
+      /* ===== 네비/색상 강제 ===== */
+      .navbar {
+        background: var(--nav-bg) !important;
+        border-bottom: 1px solid var(--border) !important;
+        backdrop-filter: none !important;
+      }
+      .nav-logo,
+      .nav-link {
+        color: var(--nav-text) !important;
+      }
+      .nav-link:hover {
+        color: #000 !important;
+      }
+      .bar {
+        background-color: var(--nav-text) !important;
+      }
+      .section {
+        position: relative;
+      }
+      .bg-hero {
+        background: var(--c-charleston) !important;
+        color: #2c2c2c !important;
+      }
+      .bg-primary {
+        background: #e8f4f8 !important;
+        color: #2c2c2c !important;
+      }
+      .bg-alt {
+        background: #f0f0f0 !important;
+        color: #2c2c2c !important;
+      }
+      .about,
+      .mission-vision,
+      .social-posts,
+      .promise,
+      .portfolio,
+      .gallery,
+      .additional-content,
+      .contact,
+      .projects {
+        background: transparent !important;
+      }
+      .bg-hero h1,
+      .bg-hero h2,
+      .bg-hero h3,
+      .bg-hero p,
+      .bg-primary h1,
+      .bg-primary h2,
+      .bg-primary h3,
+      .bg-primary p,
+      .bg-alt h1,
+      .bg-alt h2,
+      .bg-alt h3,
+      .bg-alt p {
+        color: #2c2c2c !important;
+      }
+      .cta-button,
+      .social-btn,
+      .content-btn,
+      .video-btn,
+      .view-project-btn {
+        color: inherit !important;
+        border: 2px solid currentColor !important;
+        background: transparent !important;
+      }
+      .cta-button:hover,
+      .social-btn:hover,
+      .content-btn:hover,
+      .video-btn:hover,
+      .view-project-btn:hover {
+        background: currentColor !important;
+        color: #111 !important;
+      }
+      .card,
+      .post-card,
+      .project-item {
+        background: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid var(--border) !important;
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35) !important;
+      }
+      .post-card {
+        background: rgba(255, 255, 255, 0.03) !important;
+        border: 0 !important;
+        outline: 0 !important;
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35) !important;
+      }
+      .post-card * {
+        border: 0 !important;
+        outline: 0 !important;
+        box-shadow: none !important;
+      }
+      .post-card img {
+        border: 0 !important;
+        outline: 0 !important;
+        box-shadow: none !important;
+        background: transparent !important;
+      }
+      .post-card p {
+        border-top-left-radius: 10px !important;
+        border-top-right-radius: 10px !important;
+        padding: 10px !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        margin-top: 0 !important;
+      }
+      .click-here {
+        border-top-left-radius: 10px !important;
+        border-top-right-radius: 10px !important;
+        padding: 8px 12px !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        display: inline-block !important;
+      }
+
+      /* 포트폴리오 썸네일 테두리 추가 */
+      .portfolio-thumbnail {
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        outline: none !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+        border-radius: 12px !important;
+      }
+      .portfolio-thumbnail img {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+      }
+      .portfolio-item video {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+      }
+
+      /* 포트폴리오 아이템 테두리 추가 */
+      .portfolio-item {
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        outline: none !important;
+      }
+
+      /* 반응형에서도 라운드 유지 강제 */
+      @media (max-width: 1200px) {
+        .portfolio-thumbnail,
+        .portfolio-item {
+          border-radius: 12px !important;
+        }
+      }
+      @media (max-width: 768px) {
+        .portfolio-thumbnail,
+        .portfolio-item {
+          border-radius: 12px !important;
+        }
+      }
+      @media (max-width: 480px) {
+        .portfolio-thumbnail,
+        .portfolio-item {
+          border-radius: 12px !important;
+        }
+      }
+
+      /* 0) 카드 전체는 투명 + 어떤 테두리/그림자/필터도 금지 */
+      #portfolio .portfolio-item {
+        background: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        filter: none !important;
+        outline: none !important;
+      }
+
+      /* 1) 제목 박스(알약 모양)도 그림자/테두리 제거 */
+      #portfolio .video-title-box,
+      #portfolio .video-title-box::before,
+      #portfolio .video-title-box::after {
+        border: 0 !important;
+        box-shadow: none !important;
+        filter: none !important;
+        outline: none !important;
+      }
+
+      /* 2) 미디어 프레임(썸네일/비디오)을 '유일한' 둥근모서리+클리핑 영역으로 사용 */
+      #portfolio .portfolio-item .media-frame {
+        /* 둥근 모서리 */
+        border-radius: 16px !important;
+
+        /* 둥근 모서리 밖으로 내용이 새지 않게 */
+        overflow: hidden !important;
+
+        /* 부모 배경과 이음선 안 생기도록 */
+        background: inherit !important;
+
+        /* 가짜 그림자·외곽선 제거 */
+        border: 0 !important;
+        box-shadow: none !important;
+        filter: none !important;
+        outline: none !important;
+
+        /* 브라우저 안티앨리어싱 이음선까지 깔끔히 자르기 */
+        clip-path: inset(0 round 16px) !important;
+        -webkit-clip-path: inset(0 round 16px) !important;
+      }
+
+      /* 3) 내부의 img/video는 radius/그림자 없이 '평평하게' 넣기 */
+      #portfolio .portfolio-item .media-frame img,
+      #portfolio .portfolio-item .media-frame video {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+
+        border: 0 !important;
+        border-radius: 0 !important; /* 부모와 중복 radius 금지 */
+        box-shadow: none !important;
+        filter: none !important;
+        outline: none !important;
+      }
+
+      /* 4) 혹시 남아있는 before/after 기반 장식(그림자)도 끄기 */
+      #portfolio .portfolio-item::before,
+      #portfolio .portfolio-item::after {
+        content: none !important;
+        box-shadow: none !important;
+        border: 0 !important;
+        filter: none !important;
+      }
+
+      /* 5) 탭 하이라이트 잔상 제거(모바일) */
+      #portfolio .portfolio-item,
+      #portfolio .portfolio-item * {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      /* ======= 전체 바탕색 강제 적용 ======= */
+      body {
+        background-color: #f5f5f5 !important;
+      }
+
+      /* ======= Hero 중앙 박스 이미지 ======= */
+      .hero-images {
+        display: none !important;
+      }
+      .hero {
+        margin-top: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 70vh;
+      }
+      .hero .container {
+        width: 100%;
+      }
+      .hero-content {
+        max-width: clamp(360px, 92vw, 1100px);
+        margin: 0 auto;
+        padding: 0 20px;
+        text-align: center;
+      }
+      .hero-content img.hero-media {
+        width: 100%;
+        height: auto;
+        border-radius: 24px;
+        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
+      }
+      @media (min-width: 1440px) {
+        .hero-content {
+          max-width: 1200px;
+        }
+      }
+
+      /* ======= Modal 키우기/컨트롤 고정 ======= */
+      .project-modal-content {
+        width: min(96vw, 2000px) !important;
+        height: 98vh !important;
+        max-height: 98vh !important;
+      }
+      .project-modal-body {
+        height: calc(98vh - 80px) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+      }
+      .project-viewer {
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        padding: 2rem !important;
+      }
+      .project-navigation {
+        flex: 0 0 auto !important;
+        position: sticky !important;
+        bottom: 0 !important;
+        background: var(--c-darkliver) !important;
+        padding: 1rem 2rem !important;
+        border-top: 1px solid var(--border) !important;
+      }
+      .thumbnail-grid {
+        max-height: none !important;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
+        overflow: visible !important;
+        grid-auto-rows: minmax(80px, auto) !important;
+        height: auto !important;
+      }
+      .viewer-controls {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 20px !important;
+        margin: 16px 0 !important;
+        padding: 1rem !important;
+      }
+      .viewer-controls .nav-btn,
+      .viewer-controls .page-info {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+      .nav-btn {
+        background: var(--c-charleston);
+        color: #2c2c2c;
+        border: 2px solid #2c2c2c;
+        border-radius: 50%;
+        width: 46px;
+        height: 46px;
+        font-size: 1.7rem;
+        line-height: 1;
+      }
+      .page-info {
+        font-size: 1.15rem;
+        font-weight: 600;
+        min-width: 100px;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+      }
+      @media (max-width: 768px) {
+        .project-modal-content {
+          width: 98vw !important;
+          height: 98vh !important;
+        }
+        .thumbnail-grid {
+          max-height: none !important;
+          grid-template-columns: repeat(
+            auto-fit,
+            minmax(140px, 1fr)
+          ) !important;
+        }
+      }
+
+      /* =========================================================
+       PORTFOLIO (완전 새로 작성)
+       - 제목과 썸네일을 각각 별도 행에 배치
+       ========================================================= */
+
+      /* =========================================================
+       CONTACT: CALL/MAIL/ADDRESS 세로, 카카오톡/인스타그램 가로
+       ========================================================= */
+      .contact-details {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1.5rem !important;
+      }
+      .contact-details .contact-item {
+        width: 100% !important;
+        margin-bottom: 0 !important;
+      }
+
+      /* 카카오톡과 인스타그램을 가로로 배치 */
+      .contact-details .contact-item:nth-child(4),
+      .contact-details .contact-item:nth-child(5) {
+        display: inline-block !important;
+        width: 48% !important;
+        vertical-align: top !important;
+        margin-bottom: 0 !important;
+      }
+      .contact-details .contact-item:nth-child(4) {
+        margin-right: 2% !important;
+      }
+
+      /* float를 사용한 가로 배치 */
+      .contact-details .contact-item:nth-child(4) {
+        float: left !important;
+        width: 49% !important;
+      }
+      .contact-details .contact-item:nth-child(5) {
+        float: right !important;
+        width: 49% !important;
+      }
+
+      /* float 해제 */
+      .contact-details .contact-item:nth-child(5)::after {
+        content: "" !important;
+        display: table !important;
+        clear: both !important;
+      }
+
+      /* ======= 해피팝 상세페이지 강제 스타일 ======= */
+      .happy-pop-detail-modal {
+        background: #f8f9fa !important;
+        color: #2c2c2c !important;
+      }
+      .happy-pop-detail-modal body {
+        background: #f8f9fa !important;
+        color: #2c2c2c !important;
+      }
+      .happy-pop-detail-modal .header {
+        background: #e8f4f8 !important;
+        border: 2px solid #d1e7dd !important;
+        border-radius: 15px !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+      }
+      .happy-pop-detail-modal .all-content {
+        background: #ffffff !important;
+        border: 2px solid #e0e0e0 !important;
+        border-radius: 15px !important;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12) !important;
+      }
+      .happy-pop-detail-modal .image-item {
+        background: #fafafa !important;
+        border: 1px solid #f0f0f0 !important;
+        border-radius: 12px !important;
+      }
+      .happy-pop-detail-modal .close-btn {
+        background: #2c2c2c !important;
+        color: #ffffff !important;
+      }
+
+      /* ======= 해피팝 상세페이지 인라인 스타일 강제 적용 ======= */
+      .happy-pop-detail-modal * {
+        background: inherit !important;
+        color: inherit !important;
+      }
+
+      /* ======= 프로젝트 그리드 강제 적용 ======= */
+      .projects-grid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)) !important;
+        gap: 2.5rem !important;
+        align-items: stretch !important;
+      }
+
+      .project-preview {
+        width: 100% !important;
+        height: 350px !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
+        margin-bottom: 1rem !important;
+        flex-shrink: 0 !important;
+      }
+
+      @media (max-width: 768px) {
+        .projects-grid {
+          grid-template-columns: repeat(
+            auto-fit,
+            minmax(400px, 1fr)
+          ) !important;
+          gap: 2rem !important;
+        }
+        .project-preview {
+          height: 320px !important;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .projects-grid {
+          grid-template-columns: 1fr !important;
+          gap: 1.5rem !important;
+        }
+        .project-preview {
+          height: 300px !important;
+        }
+      }
+      .happy-pop-detail-modal html {
+        background: #f8f9fa !important;
+        color: #2c2c2c !important;
+      }
+      .happy-pop-detail-modal body {
+        background: #f8f9fa !important;
+        color: #2c2c2c !important;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif !important;
+        line-height: 1.6 !important;
+        padding: 20px !important;
+        margin: 0 !important;
+      }
+      .happy-pop-detail-modal .header {
+        text-align: center !important;
+        margin-bottom: 40px !important;
+        padding: 30px !important;
+        background: #e8f4f8 !important;
+        border-radius: 15px !important;
+        border: 2px solid #d1e7dd !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+      }
+      .happy-pop-detail-modal .header h1 {
+        font-size: 2.5rem !important;
+        margin-bottom: 15px !important;
+        color: #2c2c2c !important;
+        font-weight: 700 !important;
+      }
+      .happy-pop-detail-modal .header p {
+        font-size: 1.1rem !important;
+        color: #666 !important;
+        margin: 0 !important;
+      }
+      .happy-pop-detail-modal .content {
+        max-width: 900px !important;
+        margin: 0 auto !important;
+      }
+      .happy-pop-detail-modal .section {
+        margin-bottom: 40px !important;
+      }
+      .happy-pop-detail-modal .section h2 {
+        font-size: 2rem !important;
+        margin-bottom: 30px !important;
+        text-align: center !important;
+        color: #2c2c2c !important;
+        font-weight: 600 !important;
+      }
+      .happy-pop-detail-modal .all-content {
+        display: flex !important;
+        flex-direction: column !important;
+        background: #ffffff !important;
+        border: 2px solid #e0e0e0 !important;
+        border-radius: 15px !important;
+        padding: 0 !important;
+        max-width: 900px !important;
+        margin: 0 auto !important;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12) !important;
+      }
+      .happy-pop-detail-modal .image-item {
+        text-align: center !important;
+        transition: all 0.3s !important;
+        width: 100% !important;
+        margin-bottom: 30px !important;
+        padding: 0 !important;
+        background: #fafafa !important;
+        border-radius: 12px !important;
+        border: 1px solid #f0f0f0 !important;
+      }
+      .happy-pop-detail-modal .image-item:last-child {
+        margin-bottom: 0 !important;
+      }
+      .happy-pop-detail-modal .image-item:hover {
+        transform: translateY(-5px) !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+        background: #ffffff !important;
+      }
+      .happy-pop-detail-modal .image-item img {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        border-radius: 12px !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+        border: 1px solid #e8e8e8 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+      }
+      .happy-pop-detail-modal .close-btn {
+        position: fixed !important;
+        top: 30px !important;
+        right: 30px !important;
+        background: #2c2c2c !important;
+        color: #ffffff !important;
+        border: none !important;
+        padding: 15px 30px !important;
+        border-radius: 30px !important;
+        font-size: 1.1rem !important;
+        cursor: pointer !important;
+        font-weight: 600 !important;
+        transition: all 0.3s !important;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25) !important;
+        z-index: 1000 !important;
+      }
+      .happy-pop-detail-modal .close-btn:hover {
+        background: #666 !important;
+        transform: scale(1.05) !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+      }
+      /* -----------------------------------------------------------
+   PORTFOLIO – 오버레이 제거, 외부테두리/그림자 제거, 내부테두리 1개만
+   ----------------------------------------------------------- */
+
+      /* 섹션 컨테이너/제목 중앙정렬 */
+      #portfolio,
+      section.portfolio {
+        --pf-radius: 16px;
+        --pf-title-gap: 10px;
+        --pf-border: #8ea2b8; /* 내부 테두리 색 */
+      }
+      #portfolio .container,
+      section.portfolio .container {
+        max-width: 1200px !important;
+        margin-inline: auto !important;
+      }
+      #portfolio h2,
+      section.portfolio h2 {
+        text-align: center !important;
+      }
+
+      /* 카드 바깥쪽은 모두 “투명” + 테두리/그림자 제거 */
+      #portfolio .portfolio-item {
+        background: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        outline: 0 !important;
+        filter: none !important;
+        padding-top: 0 !important; /* 이전 absolute 제목 보정 제거 */
+        position: relative !important;
+      }
+
+      /* 혹시 남아 있는 바깥 테두리/그림자 규칙 무력화 */
+      #portfolio .portfolio-item * {
+        box-shadow: none !important;
+        outline: 0 !important;
+      }
+
+      /* 제목 1행 – 오버레이가 아니라 “위 행”으로 고정 */
+      #portfolio .portfolio-item .video-title-box {
+        position: static !important; /* absolute → block */
+        display: block !important;
+        margin: 0 12px var(--pf-title-gap) !important;
+        padding: 10px 14px !important;
+        height: auto !important;
+        border-radius: 12px !important;
+        background: rgba(0, 0, 0, 0.06) !important; /* 연한 캡슐 */
+        color: #111 !important;
+        text-align: left !important;
+        font-weight: 700 !important;
+      }
+
+      /* 썸네일 프레임 – 내부 테두리 “하나만” 선명하게 */
+      #portfolio .portfolio-item .media-frame,
+      #portfolio .portfolio-item .portfolio-thumbnail {
+        /* 썸네일 래퍼 두 가지 케이스 모두 대응 */
+        margin: 0 12px 14px !important;
+        border-radius: var(--pf-radius) !important;
+        overflow: hidden !important;
+        border: 2px solid var(--pf-border) !important; /* ✅ 내부 테두리 한 겹 */
+        background: #fff !important;
+        aspect-ratio: 16 / 9 !important;
+        box-shadow: none !important;
+      }
+
+      /* 썸네일 이미지/비디오는 평평하게 */
+      #portfolio .portfolio-item .media-frame img,
+      #portfolio .portfolio-item .media-frame video,
+      #portfolio .portfolio-item .portfolio-thumbnail img,
+      #portfolio .portfolio-item .portfolio-thumbnail video {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        border: 0 !important;
+        border-radius: 0 !important; /* 프레임과 중복 radius 금지 */
+        box-shadow: none !important;
+      }
+
+      /* 외부 테두리를 다시 추가했던 규칙 덮어쓰기(무력화) */
+      .portfolio-item {
+        border: 0 !important;
+      }
+      .portfolio-thumbnail {
+        border: 0 !important;
+        box-shadow: none !important;
+      }
+
+      /* 제목/썸네일 위로 덮여 보이던 의심 요소 제거 */
+      #portfolio .video-title-box::before,
+      #portfolio .video-title-box::after,
+      #portfolio .portfolio-item::before,
+      #portfolio .portfolio-item::after {
+        content: none !important;
+        border: 0 !important;
+        box-shadow: none !important;
+      }
+
+      /* 반응형 여백 살짝 조정 */
+      @media (max-width: 640px) {
+        #portfolio .portfolio-item .video-title-box {
+          margin: 0 10px 8px !important;
+        }
+        #portfolio .portfolio-item .media-frame,
+        #portfolio .portfolio-item .portfolio-thumbnail {
+          margin: 0 10px 12px !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- NAV -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">PORTFOLIO</div>
+        <ul class="nav-menu">
+          <li><a href="#home" class="nav-link">Home</a></li>
+          <li><a href="#about" class="nav-link">About Me</a></li>
+          <li><a href="#social" class="nav-link">Social Media</a></li>
+          <li><a href="#project" class="nav-link">Project</a></li>
+          <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+        <div class="hamburger">
+          <span class="bar"></span><span class="bar"></span
+          ><span class="bar"></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section id="home" class="hero section bg-hero">
+      <div class="container">
+        <div class="hero-content">
+          <img
+            class="hero-media"
+            src="assets/images/main.jpg"
+            alt="브랜드 히어로 이미지"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="about section bg-alt">
+      <div class="container">
+        <div class="about-content">
+          <div class="about-image">
+            <img
+              src="assets/images/aboutme.jpg"
+              alt="About Me"
+              loading="eager"
+            />
+          </div>
+          <div class="about-text">
+            <h2>ABOUT ME</h2>
+            <p>안녕하세요, 1등 크리에이터를 꿈꾸는 강지유입니다.</p>
+            <p>
+              처음엔 단순한 기록이 즐거워서 시작했지만,<br />이제는 기록을 넘어,
+              브랜드와 사람 사이를 잇는 콘텐츠를 만들고 싶습니다.
+            </p>
+            <p>
+              SNS 채널 운영을 통해 기획·촬영·편집 전 과정을 직접 경험했고,<br />짧은
+              영상 하나에도 사람들의 공감을 담기 위해 끊임없이 고민해왔습니다.
+            </p>
+            <p>지유스러운 그 다음 이야기가 궁금하지 않으세요?</p>
+            <div class="social-icons">
+              <a
+                href="http://www.instagram.com/jiu_chuchu"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a
+                href="https://www.tiktok.com/@jiu_chuchu?_t=ZS-8z5jupceo0A&_r=1"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-tiktok"></i
+              ></a>
+              <a
+                href="https://youtube.com/@jiu_chuchu?si=DI_CVVhlWYP4Il5R"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-youtube"></i
+              ></a>
+            </div>
+
+            <div class="license-info">
+              <h3>LICENSE</h3>
+              <div class="license-list">
+                <div class="license-row">
+                  <p>GTQ 포토샵 1급</p>
+                  <p>메이크업아티스트 3급</p>
+                  <p>병원코디네이터</p>
+                  <p>1종보통운전면허</p>
+                </div>
+                <div class="license-row">
+                  <p>정보기기운용기능사</p>
+                  <p>워드프로세서1급</p>
+                  <p>컴퓨터활용능력3급</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOCIAL -->
+    <section id="social" class="social-posts section bg-primary">
+      <div class="container">
+        <div class="social-content">
+          <div class="social-header"><h2>SOCIAL MEDIA POSTS</h2></div>
+          <div class="posts-grid">
+            <div
+              class="post-card"
+              data-link="http://www.instagram.com/jiu_chuchu"
+            >
+              <img
+                src="assets/images/in_main.jpg"
+                alt="Instagram Main Post"
+                loading="lazy"
+              />
+              <p>브런치부터 감성 플레이팅까지 한 번에 OK ❤️</p>
+              <a
+                href="http://www.instagram.com/jiu_chuchu"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="click-here"
+                >click here</a
+              >
+            </div>
+            <div
+              class="post-card"
+              data-link="http://www.instagram.com/jiu_factory"
+            >
+              <img
+                src="assets/images/in_sub.jpg"
+                alt="Instagram Sub Post"
+                loading="lazy"
+              />
+              <p>무료 AI로 말아먹는 콘텐츠 🧚🏻‍♀️</p>
+              <a
+                href="http://www.instagram.com/jiu_factory"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="click-here"
+                >click here</a
+              >
+            </div>
+            <div
+              class="post-card"
+              data-link="https://www.youtube.com/@jiu_chuchu"
+            >
+              <img
+                src="assets/images/youtub.jpg"
+                alt="YouTube Post"
+                loading="lazy"
+              />
+              <p>지유스러운 레시피 15초면 끝! 👩🏻‍🍳</p>
+              <a
+                href="https://www.youtube.com/@jiu_chuchu"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="click-here"
+                >click here</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="project" class="projects section bg-alt">
+      <div class="container">
+        <h2>PROJECTS</h2>
+        <div class="projects-grid">
+          <div class="project-item" data-project="happy-pop-video">
+            <div class="project-preview">
+              <img
+                src="assets/images/해피팝광고영상기획서/Artboard 1.png"
+                alt="해피팝 광고영상기획서"
+                loading="eager"
+              />
+            </div>
+            <div class="project-info">
+              <h3>해피팝 광고영상기획서</h3>
+              <p>브랜드 광고 영상 제작을 위한 기획 및 스토리보드</p>
+              <button class="view-project-btn">자세히 보기</button>
+            </div>
+          </div>
+
+          <div class="project-item" data-project="happy-pop-detail">
+            <div class="project-preview">
+              <img
+                src="assets/images/해피팝상세페이지/Artboard 1.png"
+                alt="Happy Pop 상세페이지"
+                loading="eager"
+              />
+            </div>
+            <div class="project-info">
+              <h3>해피팝 상세페이지</h3>
+              <p>브랜드 스토리와 제품 정보를 담은 상세페이지 디자인</p>
+              <button class="view-project-btn">자세히 보기</button>
+            </div>
+          </div>
+
+          <div class="project-item" data-project="sns-strategy">
+            <div class="project-preview">
+              <img
+                src="assets/images/SNS 운영계획서/Artboard 1.png"
+                alt="SNS 운영계획서"
+                loading="lazy"
+              />
+            </div>
+            <div class="project-info">
+              <h3>SNS 운영계획서</h3>
+              <p>브랜드 SNS 마케팅 전략 및 콘텐츠 기획</p>
+              <button class="view-project-btn">자세히 보기</button>
+            </div>
+          </div>
+
+          <div class="project-item" data-project="instagram-report">
+            <div class="project-preview">
+              <img
+                src="assets/images/인스타 운영 및 성과 보고서/Instagram _1.jpg"
+                alt="인스타 운영 및 성과보고서"
+                loading="lazy"
+              />
+            </div>
+            <div class="project-info">
+              <h3>인스타 운영 및 성과보고서</h3>
+              <p>인스타그램 마케팅 성과 분석 및 운영 전략 보고서</p>
+              <button class="view-project-btn">자세히 보기</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Project Modal ===== -->
+    <div id="projectModal" class="project-modal">
+      <div class="project-modal-content">
+        <div class="project-modal-header">
+          <h3 id="projectModalTitle"></h3>
+          <button class="project-modal-close" aria-label="close">
+            &times;
+          </button>
+        </div>
+        <div class="project-modal-body">
+          <div class="project-viewer">
+            <div class="thumbnail-sidebar" id="thumbGrid"></div>
+            <div class="main-content">
+              <div class="main-image-container">
+                <img id="mainImage" alt="slide" />
+              </div>
+              <div class="viewer-controls" id="viewerControls">
+                <button class="nav-btn" id="prevBtn" aria-label="Previous">
+                  ‹
+                </button>
+                <div class="page-info" id="pageInfo">1 / 1</div>
+                <button class="nav-btn" id="nextBtn" aria-label="Next">
+                  ›
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PORTFOLIO -->
+    <section id="portfolio" class="portfolio section bg-primary">
+      <div class="container">
+        <h2>PORTFOLIO WORKS</h2>
+        <div class="portfolio-grid">
+          <!-- 카드 1 -->
+          <div class="portfolio-item">
+            <a class="video-link" href="javascript:void(0)">
+              <div class="media-frame">
+                <div
+                  class="video-title-box"
+                  style="
+                    position: static !important;
+                    display: block !important;
+                    margin: 0 12px 10px !important;
+                    padding: 10px 14px !important;
+                    background: #e8f4f8 !important;
+                    color: #2c2c2c !important;
+                    font-weight: 700 !important;
+                    text-align: left !important;
+                    border-radius: 16px !important;
+                    border: 2px solid #8ea2b8 !important;
+                    z-index: 999 !important;
+                    width: calc(100% - 24px) !important;
+                    box-sizing: border-box !important;
+                  "
+                >
+                  <h3>📌 Happy Pop 광고 영상</h3>
+                </div>
+                <div
+                  class="portfolio-thumbnail"
+                  style="
+                    border: 2px solid #8ea2b8 !important;
+                    border-radius: 16px !important;
+                    overflow: hidden !important;
+                    background: #fff !important;
+                    box-shadow: none !important;
+                    margin: 0 12px 14px !important;
+                    position: relative !important;
+                    width: calc(100% - 24px) !important;
+                    height: auto !important;
+                    aspect-ratio: 16/9 !important;
+                  "
+                >
+                  <img
+                    src="assets/images/thumbnails/happypop.jpg"
+                    alt="해피팝광고영상 썸네일"
+                    loading="lazy"
+                    style="
+                      width: 100% !important;
+                      height: 100% !important;
+                      object-fit: cover !important;
+                      border: 0 !important;
+                      border-radius: 0 !important;
+                      box-shadow: none !important;
+                    "
+                  />
+                  <video preload="none" muted playsinline>
+                    <source
+                      src="assets/videos/happy pop.mp4"
+                      type="video/mp4"
+                    />
+                  </video>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- 카드 2 -->
+          <div class="portfolio-item">
+            <a class="video-link" href="javascript:void(0)">
+              <div class="media-frame">
+                <div
+                  class="video-title-box"
+                  style="
+                    position: static !important;
+                    display: block !important;
+                    margin: 0 12px 10px !important;
+                    padding: 10px 14px !important;
+                    background: #e8f4f8 !important;
+                    color: #2c2c2c !important;
+                    font-weight: 700 !important;
+                    text-align: left !important;
+                    border-radius: 16px !important;
+                    border: 2px solid #8ea2b8 !important;
+                    z-index: 999 !important;
+                    width: calc(100% - 24px) !important;
+                    box-sizing: border-box !important;
+                  "
+                >
+                  <h3>✍️ 타이포그래피 광고</h3>
+                </div>
+                <div
+                  class="portfolio-thumbnail"
+                  style="
+                    border: 2px solid #8ea2b8 !important;
+                    border-radius: 16px !important;
+                    overflow: hidden !important;
+                    background: #fff !important;
+                    box-shadow: none !important;
+                    margin: 0 12px 14px !important;
+                    position: relative !important;
+                    width: calc(100% - 24px) !important;
+                    height: auto !important;
+                    aspect-ratio: 16/9 !important;
+                  "
+                >
+                  <img
+                    src="assets/images/thumbnails/typo.jpg"
+                    alt="타이포그래피 광고 썸네일"
+                    loading="lazy"
+                    style="
+                      width: 100% !important;
+                      height: 100% !important;
+                      object-fit: cover !important;
+                      border: 0 !important;
+                      border-radius: 0 !important;
+                      box-shadow: none !important;
+                    "
+                  />
+                  <video preload="none" muted playsinline>
+                    <source
+                      src="assets/videos/Final output.mp4"
+                      type="video/mp4"
+                    />
+                  </video>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- 카드 3 -->
+          <div class="portfolio-item">
+            <a class="video-link" href="javascript:void(0)">
+              <div class="media-frame">
+                <div
+                  class="video-title-box"
+                  style="
+                    position: static !important;
+                    display: block !important;
+                    margin: 0 12px 10px !important;
+                    padding: 10px 14px !important;
+                    background: #e8f4f8 !important;
+                    color: #2c2c2c !important;
+                    font-weight: 700 !important;
+                    text-align: left !important;
+                    border-radius: 16px !important;
+                    border: 2px solid #8ea2b8 !important;
+                    z-index: 999 !important;
+                    width: calc(100% - 24px) !important;
+                    box-sizing: border-box !important;
+                  "
+                >
+                  <h3>💍 웨딩 편집 영상</h3>
+                </div>
+                <div
+                  class="portfolio-thumbnail"
+                  style="
+                    border: 2px solid #8ea2b8 !important;
+                    border-radius: 16px !important;
+                    overflow: hidden !important;
+                    background: #fff !important;
+                    box-shadow: none !important;
+                    margin: 0 12px 14px !important;
+                    position: relative !important;
+                    width: calc(100% - 24px) !important;
+                    height: auto !important;
+                    aspect-ratio: 16/9 !important;
+                  "
+                >
+                  <img
+                    src="assets/images/thumbnails/weddine.jpg"
+                    alt="웨딩 편집 영상 썸네일"
+                    loading="lazy"
+                    style="
+                      width: 100% !important;
+                      height: 100% !important;
+                      object-fit: cover !important;
+                      border: 0 !important;
+                      border-radius: 0 !important;
+                      box-shadow: none !important;
+                    "
+                  />
+                  <video preload="none" muted playsinline>
+                    <source
+                      src="assets/videos/wedding Final.mp4"
+                      type="video/mp4"
+                    />
+                  </video>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- 카드 4 -->
+          <div class="portfolio-item">
+            <a class="video-link" href="javascript:void(0)">
+              <div class="media-frame">
+                <div
+                  class="video-title-box"
+                  style="
+                    position: static !important;
+                    display: block !important;
+                    margin: 0 12px 10px !important;
+                    padding: 10px 14px !important;
+                    background: #e8f4f8 !important;
+                    color: #2c2c2c !important;
+                    font-weight: 700 !important;
+                    text-align: left !important;
+                    border-radius: 16px !important;
+                    border: 2px solid #8ea2b8 !important;
+                    z-index: 999 !important;
+                    width: calc(100% - 24px) !important;
+                    box-sizing: border-box !important;
+                  "
+                >
+                  <h3>🏆 공모전 영상</h3>
+                </div>
+                <div
+                  class="portfolio-thumbnail"
+                  style="
+                    border: 2px solid #8ea2b8 !important;
+                    border-radius: 16px !important;
+                    overflow: hidden !important;
+                    background: #fff !important;
+                    box-shadow: none !important;
+                    margin: 0 12px 14px !important;
+                    position: relative !important;
+                    width: calc(100% - 24px) !important;
+                    height: auto !important;
+                    aspect-ratio: 16/9 !important;
+                  "
+                >
+                  <img
+                    src="assets/images/thumbnails/3.jpg"
+                    alt="공모전 영상 썸네일"
+                    loading="lazy"
+                    style="
+                      width: 100% !important;
+                      height: 100% !important;
+                      object-fit: cover !important;
+                      border: 0 !important;
+                      border-radius: 0 !important;
+                      box-shadow: none !important;
+                    "
+                  />
+                  <video preload="none" muted playsinline>
+                    <source
+                      src="assets/videos/final videos.mp4"
+                      type="video/mp4"
+                    />
+                  </video>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- 카드 5 -->
+          <div class="portfolio-item">
+            <a class="video-link" href="javascript:void(0)">
+              <div class="media-frame">
+                <div
+                  class="video-title-box"
+                  style="
+                    position: static !important;
+                    display: block !important;
+                    margin: 0 12px 10px !important;
+                    padding: 10px 14px !important;
+                    background: #e8f4f8 !important;
+                    color: #2c2c2c !important;
+                    font-weight: 700 !important;
+                    text-align: left !important;
+                    border-radius: 16px !important;
+                    border: 2px solid #8ea2b8 !important;
+                    z-index: 999 !important;
+                    width: calc(100% - 24px) !important;
+                    box-sizing: border-box !important;
+                  "
+                >
+                  <h3>🎬 Howl's Moving Castle</h3>
+                </div>
+                <div
+                  class="portfolio-thumbnail"
+                  style="
+                    border: 2px solid #8ea2b8 !important;
+                    border-radius: 16px !important;
+                    overflow: hidden !important;
+                    background: #fff !important;
+                    box-shadow: none !important;
+                    margin: 0 12px 14px !important;
+                    position: relative !important;
+                    width: calc(100% - 24px) !important;
+                    height: auto !important;
+                    aspect-ratio: 16/9 !important;
+                  "
+                >
+                  <img
+                    src="assets/images/thumbnails/castle.jpg"
+                    alt="Howl's Moving Castle 썸네일"
+                    loading="lazy"
+                    style="
+                      width: 100% !important;
+                      height: 100% !important;
+                      object-fit: cover !important;
+                      border: 0 !important;
+                      border-radius: 0 !important;
+                      box-shadow: none !important;
+                    "
+                  />
+                  <video preload="none" muted playsinline>
+                    <source src="assets/videos/howl's.mp4" type="video/mp4" />
+                  </video>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact section bg-alt">
+      <div class="container">
+        <div class="contact-content">
+          <div class="contact-info">
+            <h2>CONTACT</h2>
+            <div class="contact-details">
+              <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <div>
+                  <h4>CALL</h4>
+                  <p>010-2440-4414</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <div>
+                  <h4>MAIL</h4>
+                  <p>raintot@naver.com</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                  <h4>ADDRESS</h4>
+                  <p>Songhyeon-dong, Dalseo-gu, Daegu</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div>
+                  <h4><i class="fab fa-instagram"></i> INSTAGRAM</h4>
+                  <p>
+                    <a
+                      href="https://www.instagram.com/jiu_chuchu"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >@jiu_chuchu</a
+                    >
+                  </p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div>
+                  <h4><i class="fab fa-kickstarter-k"></i> KAKAOTALK</h4>
+                  <p>
+                    <img
+                      src="assets/images/qr.jpg"
+                      alt="카카오톡 QR코드"
+                      style="width: 100px; height: 100px; border-radius: 8px"
+                    />
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="video-modal">
+      <div class="video-modal-content">
+        <div class="video-modal-header">
+          <h3 id="videoModalTitle"></h3>
+          <button class="video-modal-close">&times;</button>
+        </div>
+        <div class="video-modal-body">
+          <video id="videoModalPlayer" controls autoplay>
+            <source src="" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

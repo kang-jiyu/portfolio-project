@@ -1,0 +1,160 @@
+/* =========== Portfolio Hard Reset & Fresh Style =========== */
+section.portfolio,
+#portfolio {
+  --card-radius: 22px;
+  --inner-radius: 18px;
+  --line: #93a6bd;
+  --title-bg: rgba(0,0,0,.06);
+  --title-color: #111;
+  --panel-bg: #eef2f6;
+  --gap: 28px;
+  --title-font: 700;
+  background: var(--panel-bg) !important;
+  border-radius: 16px !important;
+  padding: 32px 24px !important;
+}
+
+section.portfolio .portfolio-grid,
+#portfolio .portfolio-grid{
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+  gap: var(--gap) !important;
+  align-items: start !important;
+}
+
+#portfolio .portfolio-item,
+section.portfolio .portfolio-item{
+  position: relative !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding-top: 52px !important; /* 제목 1행을 위로 빼기 */
+  border-radius: var(--card-radius) !important;
+}
+
+#portfolio .portfolio-item *{
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  background-clip: padding-box !important;
+}
+
+/* 제목 1행 (썸네일 '위'에 고정) */
+#portfolio .portfolio-item .video-title-box{
+  position: absolute !important;
+  left: 16px !important;
+  right: 16px !important;
+  top: 8px !important;
+  height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 12px !important;
+  background: var(--title-bg) !important;
+  color: var(--title-color) !important;
+  font-weight: var(--title-font) !important;
+  line-height: 1 !important;
+  padding: 0 12px !important;
+  z-index: 5 !important;
+}
+
+/* 썸네일(2행) – 선명한 내부 테두리 */
+#portfolio .portfolio-item .media-frame,
+#portfolio .portfolio-item .portfolio-thumbnail{
+  margin: 0 16px 16px !important;
+  border-radius: var(--inner-radius) !important;
+  overflow: hidden !important;
+  outline: 2px solid var(--line) !important; /* 내부 테두리 */
+  aspect-ratio: 16 / 9 !important;
+  background: #fff !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05) !important; /* 그림자 크기 대폭 줄임 */
+}
+
+#portfolio .portfolio-item img,
+#portfolio .portfolio-item video{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+#portfolio .portfolio-item .portfolio-thumbnail{ cursor: pointer !important; }
+
+/* ===== 썸네일 테두리 강제 제거 ===== */
+#portfolio .portfolio-item .portfolio-thumbnail,
+#portfolio .portfolio-item .media-frame {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* 모든 포트폴리오 썸네일에서 테두리 완전 제거 */
+.portfolio-thumbnail,
+.media-frame,
+.portfolio-item img,
+.portfolio-item video {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* ===== 최강력 테두리 제거 오버라이드 ===== */
+/* 모든 가능한 선택자에 대해 테두리 제거 */
+#portfolio *,
+.portfolio *,
+.portfolio-grid *,
+.portfolio-item *,
+.portfolio-thumbnail *,
+.media-frame * {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* 인라인 스타일도 덮어쓰기 */
+.portfolio-thumbnail[style*="border"],
+.media-frame[style*="border"],
+.portfolio-item[style*="border"] {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* ===== CSS 변수로 테두리 완전 제거 ===== */
+:root {
+  --portfolio-border: none !important;
+  --portfolio-outline: none !important;
+  --portfolio-shadow: none !important;
+}
+
+/* 모든 포트폴리오 요소에 CSS 변수 적용 */
+#portfolio,
+.portfolio,
+.portfolio-grid,
+.portfolio-item,
+.portfolio-thumbnail,
+.media-frame {
+  border: var(--portfolio-border) !important;
+  outline: var(--portfolio-outline) !important;
+  box-shadow: var(--portfolio-shadow) !important;
+}
+
+@media (max-width: 640px){
+  section.portfolio,
+  #portfolio{
+    padding: 20px 14px !important;
+  }
+  #portfolio .portfolio-item{ padding-top: 48px !important; }
+  #portfolio .portfolio-item .video-title-box{
+    height: 36px !important;
+    left: 12px !important;
+    right: 12px !important;
+  }
+  #portfolio .portfolio-item .media-frame,
+  #portfolio .portfolio-item .portfolio-thumbnail{
+    margin: 0 12px 12px !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04) !important; /* 모바일에서 아주 작은 그림자 */
+  }
+}
