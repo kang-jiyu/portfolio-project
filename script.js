@@ -334,6 +334,7 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
   // 현재 프로젝트와 슬라이드 상태
   let currentProject = null;
   let currentSlide = 0;
+  let previewSize = null; // 프로젝트 카드 썸네일의 실제 표시 크기
 
   // 프로젝트 모달 열기
   function openProjectModal(projectId) {
@@ -344,6 +345,11 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
     currentSlide = 0;
 
     projectModalTitle.textContent = project.title;
+
+    // 화면 맞춤(이미지 전체 보이기, 스크롤 없음) 모드 활성화
+    if (projectModal && !projectModal.classList.contains("fit-page")) {
+      projectModal.classList.add("fit-page");
+    }
 
     // 썸네일 그리드 생성
     const thumbGrid = document.getElementById("thumbGrid");
@@ -372,6 +378,22 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
       mainImage.src = project.slides[0].src;
     }
 
+    // 썸네일 표시 크기에 맞춰 미리보기 영역 크기 조정
+    const mainImageContainer = document.querySelector(".main-image-container");
+    if (mainImageContainer) {
+      if (previewSize && previewSize.w && previewSize.h) {
+        mainImageContainer.style.width = previewSize.w + "px";
+        mainImageContainer.style.height = previewSize.h + "px";
+        mainImageContainer.style.margin = "0 auto";
+        projectModal.classList.add("thumb-sized");
+      } else {
+        mainImageContainer.style.removeProperty("width");
+        mainImageContainer.style.removeProperty("height");
+        mainImageContainer.style.removeProperty("margin");
+        projectModal.classList.remove("thumb-sized");
+      }
+    }
+
     // 페이지 정보 업데이트
     const pageInfo = document.getElementById("pageInfo");
     if (pageInfo) {
@@ -383,6 +405,32 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
 
     projectModal.classList.add("show");
     document.body.style.overflow = "hidden";
+
+    // 더블클릭 안내: title 부여 + 컨트롤바 안쪽에 인라인 힌트 생성
+    const mainImageContainer = document.querySelector(".main-image-container");
+    const viewerControls = document.getElementById("viewerControls");
+    if (mainImageContainer) {
+      mainImageContainer.setAttribute(
+        "title",
+        "더블클릭: 전체화면 전환 / 한 번 더 더블클릭: 종료"
+      );
+    }
+    if (
+      viewerControls &&
+      !viewerControls.querySelector(".viewer-hint-inline")
+    ) {
+      const hintInline = document.createElement("span");
+      hintInline.className = "viewer-hint-inline";
+      hintInline.textContent = "더블클릭: 전체화면";
+      viewerControls.appendChild(hintInline);
+    }
+
+    // 표시 직후 오버레이 중앙 정렬 보정
+    setTimeout(() => {
+      try {
+        recenterOverlay();
+      } catch (_) {}
+    }, 0);
   }
 
   // 페이지넘김 기능 함수들
@@ -418,6 +466,14 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
     // 메인 이미지 업데이트
     if (mainImage) {
       mainImage.src = currentProject.slides[currentSlide].src;
+      // 이미지 로드 후 컨트롤 재정렬
+      mainImage.onload = () => {
+        recenterOverlay();
+      };
+      // 혹시 캐시로 즉시 완료 시 재정렬 시도
+      if (mainImage.complete) {
+        setTimeout(recenterOverlay, 0);
+      }
     }
 
     // 페이지 정보 업데이트
@@ -441,6 +497,8 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
     if (nextBtn) {
       nextBtn.disabled = currentSlide === currentProject.slides.length - 1;
     }
+    // 슬라이드 전환 시에도 재정렬
+    recenterOverlay();
   }
 
   // 페이지넘김 버튼 초기화
@@ -459,6 +517,19 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
     updateSlideView();
   }
 
+  // 컨트롤/힌트를 실제 이미지 중앙 기준으로 정렬
+  function recenterOverlay() {
+    const controls = document.getElementById("viewerControls");
+    if (!controls) return;
+    // 중앙 정렬은 CSS에 맡김. JS 보정 제거.
+    controls.style.removeProperty("left");
+    controls.style.removeProperty("right");
+    controls.style.removeProperty("transform");
+  }
+
+  // 리사이즈 시에도 재정렬
+  window.addEventListener("resize", recenterOverlay);
+
   // 프로젝트 모달 닫기
   function closeProjectModal() {
     projectModal.classList.remove("show");
@@ -467,6 +538,30 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
     // 상태 초기화
     currentProject = null;
     currentSlide = 0;
+    previewSize = null;
+
+    // 화면 맞춤 모드 해제 (다음에 열릴 때 깔끔하게)
+    if (projectModal && projectModal.classList.contains("fit-page")) {
+      projectModal.classList.remove("fit-page");
+    }
+    projectModal.classList.remove("thumb-sized");
+
+    // 미리보기 영역 인라인 크기 제거
+    const mic = document.querySelector(".main-image-container");
+    if (mic) {
+      mic.style.removeProperty("width");
+      mic.style.removeProperty("height");
+      mic.style.removeProperty("margin");
+    }
+
+    // 전체화면 모드였다면 종료
+    if (document.fullscreenElement) {
+      document.exitFullscreen?.();
+    }
+
+    // 힌트 텍스트 제거
+    const vc = document.getElementById("viewerControls");
+    vc?.querySelector(".viewer-hint-inline")?.remove();
   }
 
   // 모달 닫기 이벤트
@@ -518,6 +613,40 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
 
   // 프로젝트 버튼 이벤트 리스너
   document.addEventListener("DOMContentLoaded", () => {
+    // ====== 전체화면 더블클릭 ======
+    const container = document.querySelector(".main-image-container");
+    if (container) {
+      const toggleFullscreen = () => {
+        if (!document.fullscreenElement) {
+          container.requestFullscreen?.();
+        } else {
+          document.exitFullscreen?.();
+        }
+      };
+      container.addEventListener("dblclick", toggleFullscreen);
+      // 단축키: F 키로도 토글
+      document.addEventListener("keydown", (e) => {
+        if (!projectModal.classList.contains("show")) return;
+        if (e.key.toLowerCase() === "f") {
+          toggleFullscreen();
+        }
+      });
+
+      // 전체화면 진입/종료 시 힌트 숨김/표시
+      document.addEventListener("fullscreenchange", () => {
+        const hint = document
+          .getElementById("viewerControls")
+          ?.querySelector(".viewer-hint-inline");
+        if (!hint) return;
+        if (document.fullscreenElement) {
+          hint.style.opacity = "0";
+          hint.style.transition = "opacity .25s ease";
+        } else {
+          hint.style.opacity = "1";
+        }
+      });
+    }
+
     // 페이지 로드 시 테두리 제거
     removePortfolioBorders();
 
@@ -536,6 +665,16 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
         if (!projectId) return;
 
         console.log("Project button clicked:", projectId); // 디버깅용
+
+        // 썸네일 표시 크기 측정 (카드의 미리보기 이미지/컨테이너)
+        const pv =
+          projectItem.querySelector(".project-preview img") ||
+          projectItem.querySelector(".project-preview video") ||
+          projectItem.querySelector(".project-preview");
+        if (pv) {
+          const r = pv.getBoundingClientRect();
+          previewSize = { w: Math.round(r.width), h: Math.round(r.height) };
+        }
 
         // 상세페이지는 새 창으로, 나머지는 모달로
         if (projectId === "happy-pop-detail") {
@@ -606,5 +745,87 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
         }
       });
     });
+
+    // 썸네일/프리뷰 이미지를 클릭해도 동일 동작
+    document
+      .querySelectorAll(".project-item .project-preview, .project-item img")
+      .forEach((el) => {
+        el.style.cursor = "pointer";
+        el.addEventListener("click", () => {
+          const projectItem = el.closest(".project-item");
+          if (!projectItem) return;
+          const projectId = projectItem.getAttribute("data-project");
+          if (!projectId) return;
+
+          // 클릭한 썸네일의 실제 표시 크기 사용
+          const r = el.getBoundingClientRect();
+          previewSize = { w: Math.round(r.width), h: Math.round(r.height) };
+
+          if (projectId === "happy-pop-detail") {
+            const project = window.projectData?.[projectId];
+            if (project) {
+              const newWindow = window.open(
+                "",
+                "_blank",
+                "width=800,height=1200,scrollbars=yes,resizable=yes"
+              );
+              newWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>${project.title}</title>
+                  <style>
+                    * { margin: 0; padding: 0; box-sizing: border-box; }
+                    body { font-family: 'Inter', sans-serif; background: #f8f9fa; color: #2c2c2c; line-height: 1.6; padding: 20px; }
+                    .header { text-align: center; margin-bottom: 30px; padding: 25px; background: #e8f4f8; border-radius: 15px; border: 2px solid #d1e7dd; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+                    .header h1 { font-size: 2.2rem; margin-bottom: 12px; color: #2c2c2c; font-weight: 700; }
+                    .header p { font-size: 1rem; color: #666; margin: 0; }
+                    .content { max-width: 700px; margin: 0 auto; }
+                    .section { margin-bottom: 30px; }
+                    .section h2 { font-size: 1.8rem; margin-bottom: 25px; text-align: center; color: #2c2c2c; font-weight: 600; }
+                    .all-content { display: flex; flex-direction: column; background: #ffffff; border: 2px solid #e0e0e0; border-radius: 15px; padding: 20px; max-width: 700px; margin: 0 auto; box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
+                    .image-item { text-align: center; transition: all .3s; width: 100%; margin-bottom: 20px; padding: 0; background: #fafafa; border-radius: 12px; border: 1px solid #f0f0f0; overflow: hidden; }
+                    .image-item:last-child { margin-bottom: 0; }
+                    .image-item:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); background: #ffffff; }
+                    .image-item img { width: 100%; max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #e8e8e8; margin: 0; padding: 0; display: block; object-fit: contain; }
+                    .close-btn { position: fixed; top: 25px; right: 25px; background: #282928; color: #ffffff; border: none; padding: 12px 25px; border-radius: 25px; font-size: 1rem; cursor: pointer; font-weight: 600; transition: all .3s; box-shadow: 0 4px 15px rgba(0,0,0,0.25); z-index: 1000; }
+                    .close-btn:hover { background: #515150; transform: scale(1.05); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+                    @media (max-width: 768px) { body { padding: 15px; } .header h1 { font-size: 1.8rem; } .content { padding: 0; } .all-content { padding: 15px; } }
+                  </style>
+                </head>
+                <body>
+                  <div class="header">
+                    <h1>${project.title}</h1>
+                    <p>브랜드 스토리와 제품 정보를 담은 상세페이지 디자인</p>
+                  </div>
+                  <div class="content">
+                    <div class="section">
+                      <h2>프로젝트 개요</h2>
+                      <div class="all-content">
+                        ${project.slides
+                          .map(
+                            (slide) => `
+                          <div class="image-item">
+                            <img src="${slide.src}" alt="${slide.title}" />
+                          </div>
+                        `
+                          )
+                          .join("")}
+                      </div>
+                    </div>
+                  </div>
+                  <button class="close-btn" onclick="window.close()">창 닫기</button>
+                </body>
+                </html>
+              `);
+              newWindow.document.close();
+            }
+          } else {
+            openProjectModal(projectId);
+          }
+        });
+      });
   });
 })();

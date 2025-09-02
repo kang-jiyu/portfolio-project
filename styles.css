@@ -507,14 +507,17 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: none !important;
     outline: none !important;
-    box-shadow: 0 10px 26px rgba(0,0,0,.35) !important;
+    box-shadow: 0 10px 26px rgba(0,0,0,.12) !important;
+    border-radius: 16px !important;      /* 카드도 둥글게 */
+    overflow: hidden !important;         /* 내부 모서리 일치 */
+    padding-bottom: 12px;                /* 하단 여백 확보로 링크가 바닥에 붙지 않도록 */
 }
 
 .post-card img {
     width: 100%;
     height: 400px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 16px 16px 0 0; /* 상단만 라운드 */
     margin-bottom: 0.5rem;
     border: 0 !important;
     outline: 0 !important;
@@ -525,7 +528,7 @@ body {
 .post-card p {
     font-size: 1rem;
     color: #2c2c2c;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.15rem;              /* 본문과 링크 사이 간격 축소 */
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     padding: 10px;
@@ -555,10 +558,11 @@ body {
     letter-spacing: 1px;
     opacity: 0.8;
     transition: all 0.3s ease;
-    margin-top: 0;
+    margin-top: 0.1rem;                  /* 본문과 간격 더 줄이기 */
+    margin-bottom: 0.5rem;               /* 카드 하단과 거리도 살짝 줄이기 */
     cursor: pointer;
     text-decoration: underline;
-    text-underline-offset: 2px;
+    text-underline-offset: 3px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     padding: 8px 12px;
@@ -2705,6 +2709,61 @@ html body .portfolio-item {
   .thumbnail-grid{ max-height: clamp(120px, 20vh, 200px) !important; }
 }
 
+/* ===== Modal: match preview size (thumb-sized mode) ===== */
+#projectModal.thumb-sized .main-image-container{
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+#projectModal.thumb-sized #mainImage{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* ===== FINAL OVERRIDE: Portfolio thumbnails uniform size ===== */
+/* 그리드는 유지하고, 모든 썸네일 프레임/이미지를 동일 비율/크기 규칙으로 강제 */
+html body #portfolio .portfolio-grid .portfolio-item .media-frame,
+html body #portfolio .portfolio-grid .portfolio-item .portfolio-thumbnail{
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9 !important;    /* 전 섬네일 동일 비율 */
+  overflow: hidden !important;         /* 라운드 밖으로 새지 않음 */
+  border-radius: 16px !important;
+  margin: 0 0 14px 0 !important;
+}
+
+html body #portfolio .portfolio-grid .portfolio-item .media-frame img,
+html body #portfolio .portfolio-grid .portfolio-item .portfolio-thumbnail img,
+html body #portfolio .portfolio-grid .portfolio-item .media-frame video,
+html body #portfolio .portfolio-grid .portfolio-item .portfolio-thumbnail video{
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;        /* 기본: 꽉 채우기 */
+  border-radius: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* No-crop for images (letterbox) */
+#portfolio .portfolio-grid .portfolio-item .media-frame img,
+#portfolio .portfolio-grid .portfolio-item .portfolio-thumbnail img{
+  object-fit: contain !important;      /* 잘림 없이 전체 보이기 */
+  object-position: center center !important;
+  background: #fff !important;         /* 여백이 생길 때 자연스러운 배경 */
+}
+
+/* ===== FINAL OVERRIDE (strongest) — ensure image thumbnails never crop ===== */
+html body #portfolio .portfolio-grid > .portfolio-item .media-frame .portfolio-thumbnail img,
+html body #portfolio .portfolio-grid > .portfolio-item .media-frame img,
+html body #portfolio .portfolio-grid > .portfolio-item .portfolio-thumbnail img{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;   /* 최우선: 잘림 금지 */
+  object-position: center center !important;
+  background: #ffffff !important;
+}
+
 /* ===== 썸네일 반응형 디자인 ===== */
 @media (max-width: 768px) {
   .portfolio-item {
@@ -4021,7 +4080,7 @@ img, video, canvas {
   이전 포트폴리오 스타일들은 모두 주석 처리되었습니다.
   현재는 index.html의 인라인 스타일이 적용됩니다.
   */
-  /* ===== 프로젝트 모달: fit-page 모드 (페이지 1장씩, 내부 스크롤 제거) ===== */
+/* ===== 프로젝트 모달: fit-page 모드 (페이지 1장씩, 내부 스크롤 제거) ===== */
 #projectModal.fit-page .project-modal-body{
   overflow: hidden !important;   /* 내부 스크롤 제거 */
 }
@@ -4049,6 +4108,7 @@ img, video, canvas {
   padding: 0 !important;
   margin: 0 !important;
   background: transparent !important; /* 배경 제거 */
+  position: relative !important;      /* 컨트롤 오버레이 기준 */
 }
 
 #projectModal.fit-page #mainImage{
@@ -4109,15 +4169,102 @@ img, video, canvas {
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  margin: 16px 0;
-  padding: 1rem;
+  position: static !important;              /* 이미지 아래에 자연 배치 */
+  left: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 8px auto 4px !important;          /* 이미지와 살짝 간격 */
+  padding: 6px 10px !important;
+  width: max-content !important;
+  background: rgba(0,0,0,0.35) !important;
+  border-radius: 999px !important;
 }
 
 #projectModal.fit-page .thumbnail-sidebar {
   overflow: auto;             /* 썸네일 스크롤은 허용 */
+}
+/* Fit-page 모드에서 여백 최소화 + 화면 더 넓게 사용 */
+#projectModal.fit-page .project-modal-content{
+  width: min(98vw, 2200px) !important;
+  height: 98vh !important;
+  max-height: 98vh !important;
+  border-radius: 14px !important;
+}
+
+#projectModal.fit-page .project-viewer{
+  padding: 0.75rem !important;
+  gap: 0.75rem !important;
+}
+
+#projectModal.fit-page .main-content{
+  gap: 6px !important;                  /* 이미지 아래 공간 확보 */
+  padding-left: 0.5rem !important;
+}
+
+#projectModal.fit-page .thumbnail-sidebar{
+  gap: 0.5rem !important;
+  flex: 0 0 140px !important; /* 사이드바 폭 소폭 축소 */
+}
+
+/* 더블클릭 전체화면용 스타일 */
+.main-image-container:fullscreen{
+  background: var(--c-charleston);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.main-image-container:fullscreen img{
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  object-fit: contain !important; /* 절대 잘리지 않음 */
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* fit-page에서 컨트롤 버튼/페이지 텍스트 축소 */
+#projectModal.fit-page .viewer-controls .nav-btn{
+  width: 34px !important;
+  height: 34px !important;
+  font-size: 1.3rem !important;
+  border-width: 1px !important;
+}
+
+#projectModal.fit-page .viewer-controls .page-info{
+  font-size: 0.95rem !important;
+  min-width: 70px !important;
+  padding: 2px 8px !important;
+  background: rgba(255,255,255,0.15) !important;
+}
+
+/* 더블클릭 힌트 텍스트 */
+/* 컨트롤바 우측에 붙는 인라인 힌트 */
+#projectModal.fit-page #viewerControls .viewer-hint-inline{
+  margin-left: 10px;
+  background: rgba(0,0,0,0.28);
+  color: #fff;
+  font-size: 0.88rem;
+  line-height: 1;
+  padding: 6px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* 상단 배치가 필요할 때 옵션 클래스 */
+#projectModal.fit-page .viewer-hint.top{
+  bottom: auto;
+  top: 12px;
 }
 /* ... existing code ... */
 
@@ -4195,6 +4342,61 @@ img, video, canvas {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
 }
+
+/* ===== FINAL OVERRIDES: Portfolio thumbnail consistency ===== */
+#portfolio .portfolio-item .media-frame,
+#portfolio .portfolio-item .portfolio-thumbnail{
+  aspect-ratio: 16 / 9 !important;
+  height: auto !important;
+  overflow: hidden !important;
+}
+#portfolio .portfolio-item .media-frame img,
+#portfolio .portfolio-item .portfolio-thumbnail img{
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+#portfolio .portfolio-item{
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+#portfolio .media-frame,
+#portfolio .portfolio-thumbnail{
+  margin: 0 !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  background: #fff !important;
+  aspect-ratio: 16 / 9 !important; /* 썸네일=뷰어 비율 일치 */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12) !important; /* 자연스러운 공통 그림자 */
+  clip-path: inset(0 round 16px) !important; /* 좌/우 모서리 일관 */
+  -webkit-clip-path: inset(0 round 16px) !important;
+}
+
+#portfolio .media-frame img,
+#portfolio .media-frame video,
+#portfolio .portfolio-thumbnail img,
+#portfolio .portfolio-thumbnail video{
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;  /* 비율 차이 자연스러운 크롭 */
+  border: 0 !important;
+  border-radius: 0 !important;   /* 부모와 중복 금지 */
+  box-shadow: none !important;
+}
+
+#portfolio .portfolio-item::before,
+#portfolio .portfolio-item::after{
+  content: none !important;      /* 외부 박스/장식 제거 */
+}
+
+/* Revert: keep existing grid and let tiles be responsive */
+#portfolio .portfolio-grid{ grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important; }
+#portfolio .portfolio-grid .portfolio-item .media-frame,
+#portfolio .portfolio-grid .portfolio-item .portfolio-thumbnail{ width: 100% !important; height: auto !important; aspect-ratio: 16 / 9 !important; margin: 0 0 14px 0 !important; }
 /* 포트폴리오 섹션 폭을 다른 섹션과 동일하게 제한 + 가운데 정렬 */
 .portfolio .container{
   max-width: 1180px;   /* 다른 섹션과 맞추고 싶으면 여기 수치만 바꾸세요 */
@@ -5250,12 +5452,12 @@ body .portfolio-item,
   border-radius: 0 0 18px 18px !important;
 }
 
-/* (선택) 섹션에 배경판을 깔아 더 또렷하게 구분 */
+/* (삭제) 섹션 배경판 제거 — 포트폴리오 영역을 깨끗하게 */
 .portfolio.section .container{
-  background:#F5F7FA !important;                 /* 아주 옅은 회색 */
-  padding: 40px 28px !important;
-  border-radius: 24px !important;
-  box-shadow: inset 0 0 0 1px #E5E7EB !important; /* 안쪽 경계선 */
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 /* =========================================================
    PORTFOLIO 카드 구분 강제 강화(새 방법) — outline + inner ring
@@ -5310,11 +5512,11 @@ body .portfolio-item,
   
   /* 섹션 배경 패널을 더 분리감 있게 */
   #portfolio .container{
-    background: #F4F6FA !important;
-    border: 1px solid #E1E5EC !important;
-    border-radius: 24px !important;
-    box-shadow: 0 1px 0 #FFFFFF inset, 0 0 0 1px #EAECEF inset !important;
-    padding: 40px 28px !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
   }
   
   /* 헤더(제목) 중앙 고정 — 혹시 다른 CSS가 덮으면 여기서 강제 */
@@ -5615,14 +5817,16 @@ body .portfolio-item,
 #portfolio .portfolio-item .video-title-box {
   position: static !important;         /* absolute → static */
   display: block !important;
-  margin: 0 12px 10px !important;      /* 썸네일과 간격 */
-  padding: 10px 14px !important;
+  margin: 0 12px 8px !important;       /* 썸네일과 간격 */
+  padding: 0 !important;               /* 푸른 캡슐 박스 제거 */
   height: auto !important;
-  border-radius: 12px !important;
-  background: rgba(255,255,255,.82) !important;  /* 연한 캡슐 */
+  border-radius: 0 !important;
+  background: transparent !important;  /* 배경 제거 */
   color: #111 !important;
   font-weight: 700 !important;
   text-align: left !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
 
 /* =========================================================
@@ -6144,19 +6348,16 @@ body #portfolio .media-frame video,
 
 #portfolio .portfolio-item .media-frame,
 #portfolio .portfolio-item .portfolio-thumbnail {
-  overflow: visible !important;
+  overflow: hidden !important;
   height: auto !important;
-  min-height: auto !important;
-  max-height: none !important;
-  aspect-ratio: auto !important;
+  aspect-ratio: 16 / 9 !important;   /* 프레임 고정 비율 */
 }
 
 #portfolio .portfolio-item .media-frame img,
 #portfolio .portfolio-item .portfolio-thumbnail img {
-  height: auto !important;
-  min-height: auto !important;
-  max-height: none !important;
-  object-fit: contain !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;     /* 프레임과 동일 사이즈로 채움 */
 }
 /* 모든 썸네일 관련 요소에 최고 우선순위로 적용 */
 html body #portfolio .portfolio-thumbnail,
@@ -6371,6 +6572,22 @@ body #portfolio .media-frame video,
   align-items: center !important;
   width: 100% !important;
   gap: 10px !important;
+}
+
+/* ============================
+   ULTIMATE OVERRIDE: No-crop images
+   (placed at file end to beat later rules)
+   ============================ */
+/* ULTIMATE OVERRIDE: thumbnail centered, no crop */
+html body #portfolio .portfolio-item .portfolio-thumbnail > img,
+html body #portfolio .portfolio-item .media-frame > img,
+section.portfolio #portfolio .portfolio-item .portfolio-thumbnail > img,
+section.portfolio .portfolio-item .portfolio-thumbnail > img{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;        /* 중앙 표시, 잘림 없음 */
+  object-position: center center !important;
+  background: #fff !important;           /* 레터박스 배경 */
 }
 
 /* 제목 박스 - 1행에 배치 */

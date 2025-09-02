@@ -670,17 +670,29 @@
         box-shadow: none !important;
       }
 
-      /* 썸네일 이미지/비디오는 평평하게 */
+      /* 썸네일 이미지/비디오는 평평하게
+         - 이미지: contain으로 전체 보이게 (잘림 없음)
+         - 비디오: cover로 미리보기 느낌 유지 */
       #portfolio .portfolio-item .media-frame img,
+      #portfolio .portfolio-item .portfolio-thumbnail img {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important; /* 프레임을 꽉 채움 */
+        border: 0 !important;
+        border-radius: 0 !important; /* 프레임과 중복 radius 금지 */
+        box-shadow: none !important;
+        background: transparent !important;
+      }
       #portfolio .portfolio-item .media-frame video,
-      #portfolio .portfolio-item .portfolio-thumbnail img,
       #portfolio .portfolio-item .portfolio-thumbnail video {
         display: block !important;
         width: 100% !important;
         height: 100% !important;
         object-fit: cover !important;
+        background: transparent !important;
         border: 0 !important;
-        border-radius: 0 !important; /* 프레임과 중복 radius 금지 */
+        border-radius: 0 !important;
         box-shadow: none !important;
       }
 
@@ -1036,6 +1048,9 @@
                       width: 100% !important;
                       height: 100% !important;
                       object-fit: cover !important;
+                      background: transparent !important;
+                      object-position: center center !important;
+                      background: #fff !important;
                       border: 0 !important;
                       border-radius: 0 !important;
                       box-shadow: none !important;
@@ -1103,6 +1118,9 @@
                       width: 100% !important;
                       height: 100% !important;
                       object-fit: cover !important;
+                      background: transparent !important;
+                      object-position: center center !important;
+                      background: #fff !important;
                       border: 0 !important;
                       border-radius: 0 !important;
                       box-shadow: none !important;
@@ -1170,6 +1188,9 @@
                       width: 100% !important;
                       height: 100% !important;
                       object-fit: cover !important;
+                      background: transparent !important;
+                      object-position: center center !important;
+                      background: #fff !important;
                       border: 0 !important;
                       border-radius: 0 !important;
                       box-shadow: none !important;
@@ -1237,6 +1258,9 @@
                       width: 100% !important;
                       height: 100% !important;
                       object-fit: cover !important;
+                      background: transparent !important;
+                      object-position: center center !important;
+                      background: #fff !important;
                       border: 0 !important;
                       border-radius: 0 !important;
                       box-shadow: none !important;
@@ -1304,6 +1328,9 @@
                       width: 100% !important;
                       height: 100% !important;
                       object-fit: cover !important;
+                      background: transparent !important;
+                      object-position: center center !important;
+                      background: #fff !important;
                       border: 0 !important;
                       border-radius: 0 !important;
                       box-shadow: none !important;
