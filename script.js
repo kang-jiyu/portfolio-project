@@ -407,7 +407,7 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
     document.body.style.overflow = "hidden";
 
     // 더블클릭 안내: title 부여 + 컨트롤바 안쪽에 인라인 힌트 생성
-    const mainImageContainer = document.querySelector(".main-image-container");
+    // 위에서 선언한 mainImageContainer 재사용
     const viewerControls = document.getElementById("viewerControls");
     if (mainImageContainer) {
       mainImageContainer.setAttribute(
@@ -432,6 +432,10 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
       } catch (_) {}
     }, 0);
   }
+
+  // 외부(전역 위임 핸들러 등)에서도 모달 열기 함수를 사용할 수 있게 노출
+  // 일부 브라우저/상황에서 기존 핸들러가 막혀도 전역 핸들러가 호출할 수 있음
+  window.openProjectModal = openProjectModal;
 
   // 페이지넘김 기능 함수들
   function goToSlide(index) {
@@ -827,5 +831,79 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
           }
         });
       });
+
+    // ===== 안전망: 이벤트 위임으로 항상 동작 보장 =====
+    document.addEventListener("click", (e) => {
+      const trigger = e.target.closest(
+        ".view-project-btn, .project-item .project-preview, .project-item img"
+      );
+      if (!trigger) return;
+      const container = trigger.closest(".project-item");
+      if (!container) return;
+      const projectId = container.getAttribute("data-project");
+      if (!projectId) return;
+
+      // 썸네일 표시 크기 측정 (미리보기 고정 기능 사용 중이라면)
+      const pv =
+        container.querySelector(".project-preview img") ||
+        container.querySelector(".project-preview video") ||
+        container.querySelector(".project-preview");
+      if (pv) {
+        const r = pv.getBoundingClientRect();
+        previewSize = { w: Math.round(r.width), h: Math.round(r.height) };
+      }
+
+      if (projectId === "happy-pop-detail") {
+        const project = window.projectData?.[projectId];
+        if (project) {
+          const win = window.open(
+            "",
+            "_blank",
+            "width=800,height=1200,scrollbars=yes,resizable=yes"
+          );
+          if (!win) return; // 팝업 차단
+          win.document.write("<title>" + project.title + "</title>");
+          // 간단 오픈: 상세는 기존 버튼 핸들러 경로도 유지됨
+          win.location.href = project.slides?.[0]?.src || "about:blank";
+        }
+      } else {
+        openProjectModal(projectId);
+      }
+    });
   });
 })();
+
+// Emergency global delegate (capture phase): opens project modal even if other bindings fail
+document.addEventListener(
+  "click",
+  (e) => {
+    const trigger = e.target.closest(
+      ".view-project-btn, .project-item .project-preview, .project-item img"
+    );
+    if (!trigger) return;
+    const container = trigger.closest(".project-item");
+    if (!container) return;
+    const projectId = container.getAttribute("data-project");
+    if (!projectId) return;
+
+    // Prevent other handlers from blocking
+    e.stopPropagation();
+    e.preventDefault();
+
+    try {
+      // Prefer in-app modal for all except detail page
+      if (projectId !== "happy-pop-detail") {
+        if (typeof openProjectModal === "function") {
+          openProjectModal(projectId);
+          return;
+        }
+      }
+      // Fallback to opening first slide in new tab (avoids popup blockers)
+      const first = window.projectData?.[projectId]?.slides?.[0]?.src;
+      if (first) window.open(first, "_blank", "noopener,noreferrer");
+    } catch (err) {
+      console.error("Fallback open failed", err);
+    }
+  },
+  true
+);
