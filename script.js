@@ -680,7 +680,18 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
           previewSize = { w: Math.round(r.width), h: Math.round(r.height) };
         }
 
-        // 상세페이지는 새 창으로, 나머지는 모달로
+        // 상세페이지는 예전처럼 새 창에 세로 스택으로 열기
+        if (projectId === "happy-pop-detail") {
+          if (typeof window.openDetailStackPage === "function") {
+            window.openDetailStackPage(projectId);
+          }
+          return;
+        }
+
+        // 나머지는 모달
+        openProjectModal(projectId);
+
+        // 상세페이지는 새 창으로, 나머지는 모달로 (legacy block — kept for reference)
         if (projectId === "happy-pop-detail") {
           // 해피팝 상세페이지는 새 창에서 열기
           const project = window.projectData?.[projectId];
@@ -744,7 +755,6 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
             newWindow.document.close();
           }
         } else {
-          // 나머지 프로젝트는 모달로 열기
           openProjectModal(projectId);
         }
       });
@@ -764,6 +774,14 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
           // 클릭한 썸네일의 실제 표시 크기 사용
           const r = el.getBoundingClientRect();
           previewSize = { w: Math.round(r.width), h: Math.round(r.height) };
+
+          if (projectId === "happy-pop-detail") {
+            if (typeof window.openDetailStackPage === "function") {
+              window.openDetailStackPage(projectId);
+            }
+            return;
+          }
+          openProjectModal(projectId);
 
           if (projectId === "happy-pop-detail") {
             const project = window.projectData?.[projectId];
@@ -843,32 +861,8 @@ if (videoModal && videoModalTitle && videoModalPlayer && videoModalClose) {
       const projectId = container.getAttribute("data-project");
       if (!projectId) return;
 
-      // 썸네일 표시 크기 측정 (미리보기 고정 기능 사용 중이라면)
-      const pv =
-        container.querySelector(".project-preview img") ||
-        container.querySelector(".project-preview video") ||
-        container.querySelector(".project-preview");
-      if (pv) {
-        const r = pv.getBoundingClientRect();
-        previewSize = { w: Math.round(r.width), h: Math.round(r.height) };
-      }
-
-      if (projectId === "happy-pop-detail") {
-        const project = window.projectData?.[projectId];
-        if (project) {
-          const win = window.open(
-            "",
-            "_blank",
-            "width=800,height=1200,scrollbars=yes,resizable=yes"
-          );
-          if (!win) return; // 팝업 차단
-          win.document.write("<title>" + project.title + "</title>");
-          // 간단 오픈: 상세는 기존 버튼 핸들러 경로도 유지됨
-          win.location.href = project.slides?.[0]?.src || "about:blank";
-        }
-      } else {
-        openProjectModal(projectId);
-      }
+      // 공통: 모달에서 열기
+      openProjectModal(projectId);
     });
   });
 })();
@@ -891,19 +885,46 @@ document.addEventListener(
     e.preventDefault();
 
     try {
-      // Prefer in-app modal for all except detail page
-      if (projectId !== "happy-pop-detail") {
-        if (typeof openProjectModal === "function") {
-          openProjectModal(projectId);
-          return;
-        }
+      // 상세페이지는 세로 스택 새 창, 나머지는 모달
+      if (
+        projectId === "happy-pop-detail" &&
+        typeof window.openDetailStackPage === "function"
+      ) {
+        window.openDetailStackPage(projectId);
+        return;
       }
-      // Fallback to opening first slide in new tab (avoids popup blockers)
-      const first = window.projectData?.[projectId]?.slides?.[0]?.src;
-      if (first) window.open(first, "_blank", "noopener,noreferrer");
+      if (typeof openProjectModal === "function") {
+        openProjectModal(projectId);
+        return;
+      }
     } catch (err) {
       console.error("Fallback open failed", err);
     }
   },
   true
 );
+
+// Detail stack viewer (open in new window with vertical images)
+function openDetailStackPage(projectId) {
+  const project = window.projectData?.[projectId];
+  if (!project) return;
+  const w = window.open(
+    "",
+    "_blank",
+    "width=900,height=1200,scrollbars=yes,resizable=yes"
+  );
+  if (!w) return;
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${
+    project.title
+  }</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:#f8f9fa;color:#2c2c2c;line-height:1.6;padding:20px}.header{text-align:center;margin-bottom:30px;padding:20px;background:#e8f4f8;border-radius:12px;border:2px solid #d1e7dd}.all-content{display:flex;flex-direction:column;gap:20px;max-width:900px;margin:0 auto}.image-item img{width:100%;height:auto;display:block;object-fit:contain;background:#fff;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.1);border:1px solid #e8e8e8}</style></head><body><div class="header"><h1>${
+    project.title
+  }</h1></div><div class="all-content">${project.slides
+    .map(
+      (s) =>
+        `<div class=\"image-item\"><img src=\"${s.src}\" alt=\"${s.title}\"></div>`
+    )
+    .join("")}</div></body></html>`;
+  w.document.write(html);
+  w.document.close();
+}
+window.openDetailStackPage = openDetailStackPage;

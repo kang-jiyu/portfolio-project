@@ -6655,3 +6655,32 @@ html body #portfolio .portfolio-item .media-frame > img{
   object-position: center center !important;
   background: #fff !important;
 }
+/* ======================= FINAL PORTFOLIO FIXES ======================= */
+/* 1) Remove the big outer blue panel around Portfolio section */
+/*    Make the section container transparent and flat. */
+#portfolio .container,
+.portfolio.section .container{
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* 2) Thumbnail frame: keep 16:9, clip overflow, rounded corners */
+#portfolio .portfolio-item .media-frame,
+#portfolio .portfolio-item .portfolio-thumbnail{
+  aspect-ratio: 16 / 9 !important;
+  overflow: hidden !important;
+  border-radius: 16px !important;
+}
+
+/* 3) Thumbnail image: fill the frame, centered (no letterboxing) */
+#portfolio .portfolio-item .media-frame > img,
+#portfolio .portfolio-item .portfolio-thumbnail > img{
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
