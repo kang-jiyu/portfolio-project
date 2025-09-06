@@ -928,3 +928,280 @@ function openDetailStackPage(projectId) {
   w.document.close();
 }
 window.openDetailStackPage = openDetailStackPage;
+
+// =====================
+// New Projects Window Functionality
+// =====================
+// New project data (이미지 파일들을 실제 경로로 수정하세요)
+const newProjects = {
+  "project-1": {
+    title: "새로운 프로젝트 1",
+    images: [
+      "assets/images/새로운프로젝트1/image1.jpg",
+      "assets/images/새로운프로젝트1/image2.jpg",
+      "assets/images/새로운프로젝트1/image3.jpg",
+      "assets/images/새로운프로젝트1/image4.jpg",
+      "assets/images/새로운프로젝트1/image5.jpg"
+    ]
+  },
+  "project-2": {
+    title: "새로운 프로젝트 2", 
+    images: [
+      "assets/images/새로운프로젝트2/image1.jpg",
+      "assets/images/새로운프로젝트2/image2.jpg",
+      "assets/images/새로운프로젝트2/image3.jpg",
+      "assets/images/새로운프로젝트2/image4.jpg"
+    ]
+  }
+};
+
+// Open new project in new window
+function openNewProjectWindow(projectId) {
+  const project = newProjects[projectId];
+  if (!project) return;
+
+  // Create HTML content for the new window
+  const html = `
+    <!DOCTYPE html>
+    <html lang="ko">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>${project.title}</title>
+      <style>
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        
+        body {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          background: #f8f9fa;
+          color: #333;
+          line-height: 1.6;
+        }
+        
+        .header {
+          background: white;
+          padding: 20px 0;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+          position: sticky;
+          top: 0;
+          z-index: 100;
+        }
+        
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 20px;
+        }
+        
+        .header h1 {
+          font-size: 2rem;
+          font-weight: 700;
+          color: #333;
+          text-align: center;
+        }
+        
+        .gallery-container {
+          padding: 40px 0;
+        }
+        
+        .gallery-main {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-bottom: 30px;
+          min-height: 500px;
+          background: white;
+          border-radius: 15px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+          padding: 20px;
+        }
+        
+        .gallery-main img {
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: contain;
+          border-radius: 10px;
+        }
+        
+        .gallery-thumbnails {
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 15px;
+          background: white;
+          padding: 30px;
+          border-radius: 15px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .gallery-thumbnails img {
+          width: 100px;
+          height: 100px;
+          object-fit: cover;
+          border-radius: 10px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border: 3px solid transparent;
+        }
+        
+        .gallery-thumbnails img:hover {
+          transform: scale(1.05);
+          border-color: #d4a574;
+        }
+        
+        .gallery-thumbnails img.active {
+          border-color: #d4a574;
+          box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.3);
+        }
+        
+        .close-btn {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: #d4a574;
+          color: white;
+          border: none;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          font-size: 1.5rem;
+          cursor: pointer;
+          box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+          transition: all 0.3s ease;
+          z-index: 1000;
+        }
+        
+        .close-btn:hover {
+          background: #c1965a;
+          transform: scale(1.1);
+        }
+        
+        @media (max-width: 768px) {
+          .gallery-main {
+            min-height: 300px;
+            padding: 15px;
+          }
+          
+          .gallery-thumbnails {
+            padding: 20px;
+            gap: 10px;
+          }
+          
+          .gallery-thumbnails img {
+            width: 80px;
+            height: 80px;
+          }
+          
+          .header h1 {
+            font-size: 1.5rem;
+          }
+          
+          /* 모바일에서 이미지가 잘리지 않도록 개선 */
+          .gallery-main img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain !important;
+            object-position: center center !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .gallery-main {
+            min-height: 250px;
+            padding: 10px;
+          }
+          
+          .gallery-thumbnails {
+            padding: 15px;
+            gap: 8px;
+          }
+          
+          .gallery-thumbnails img {
+            width: 50px;
+            height: 50px;
+          }
+          
+          .header h1 {
+            font-size: 1.3rem;
+          }
+          
+          .close-btn {
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
+            top: 10px;
+            right: 10px;
+          }
+        }
+      </style>
+    </head>
+    <body>
+      <button class="close-btn" onclick="window.close()" title="창 닫기">×</button>
+      
+      <div class="header">
+        <div class="container">
+          <h1>${project.title}</h1>
+        </div>
+      </div>
+      
+      <div class="gallery-container">
+        <div class="container">
+          <div class="gallery-main">
+            <img id="mainImage" src="${project.images[0]}" alt="${project.title}" />
+          </div>
+          
+          <div class="gallery-thumbnails">
+            ${project.images.map((imageSrc, index) => 
+              `<img src="${imageSrc}" alt="${project.title} - Image ${index + 1}" 
+                   class="${index === 0 ? 'active' : ''}" 
+                   onclick="changeMainImage('${imageSrc}', this)" />`
+            ).join('')}
+          </div>
+        </div>
+      </div>
+      
+      <script>
+        function changeMainImage(imageSrc, thumbnail) {
+          document.getElementById('mainImage').src = imageSrc;
+          
+          // Update active thumbnail
+          document.querySelectorAll('.gallery-thumbnails img').forEach(img => {
+            img.classList.remove('active');
+          });
+          thumbnail.classList.add('active');
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+          const thumbnails = Array.from(document.querySelectorAll('.gallery-thumbnails img'));
+          const activeThumbnail = document.querySelector('.gallery-thumbnails img.active');
+          const currentIndex = thumbnails.indexOf(activeThumbnail);
+          
+          if (e.key === 'ArrowLeft' && currentIndex > 0) {
+            thumbnails[currentIndex - 1].click();
+          } else if (e.key === 'ArrowRight' && currentIndex < thumbnails.length - 1) {
+            thumbnails[currentIndex + 1].click();
+          } else if (e.key === 'Escape') {
+            window.close();
+          }
+        });
+      </script>
+    </body>
+    </html>
+  `;
+
+  // Open new window
+  const newWindow = window.open('', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+  if (newWindow) {
+    newWindow.document.write(html);
+    newWindow.document.close();
+    newWindow.focus();
+  }
+}
+
+// Make function globally available
+window.openNewProjectWindow = openNewProjectWindow;

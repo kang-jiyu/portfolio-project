@@ -638,6 +638,13 @@ body {
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
+    
+    /* 모바일에서 포트폴리오 이미지가 잘리지 않도록 개선 */
+    .portfolio-thumbnail img,
+    .portfolio-item video {
+        object-fit: contain !important;
+        object-position: center center !important;
+    }
 }
 
 .portfolio-item {
@@ -1457,6 +1464,12 @@ html body .portfolio-item {
     .project-preview {
         height: 320px !important;
     }
+    
+    /* 모바일에서 기획서 이미지가 잘리지 않도록 개선 */
+    .project-preview img {
+        object-fit: contain !important;
+        object-position: center center !important;
+    }
 }
 
 @media (max-width: 640px) {
@@ -1466,6 +1479,12 @@ html body .portfolio-item {
     }
     .project-preview {
         height: 300px !important;
+    }
+    
+    /* 모바일에서 기획서 이미지가 잘리지 않도록 개선 */
+    .project-preview img {
+        object-fit: contain !important;
+        object-position: center center !important;
     }
 }
 
@@ -2750,6 +2769,13 @@ html body .portfolio-item {
   .thumbnail-overlay h3 {
     font-size: 0.9rem;
     padding: 0.6rem;
+  }
+  
+  /* 모바일에서 포트폴리오 이미지가 잘리지 않도록 개선 */
+  .portfolio-thumbnail img,
+  .portfolio-item video {
+    object-fit: contain !important;
+    object-position: center center !important;
   }
 }
 /* === Social Media Posts: 'Click here' 간격/색/음영 정리 === */
@@ -6782,4 +6808,137 @@ body .navbar,
 html body .navbar{
   background: #C8D9E6 !important;  /* 파란색 유지 */
   border-bottom: 1px solid rgba(0,0,0,.08) !important;
+}
+
+/* ===== NEW PROJECTS SECTION STYLES ===== */
+.new-projects {
+  padding: 80px 0;
+}
+
+.new-projects h2 {
+  text-align: center;
+  margin-bottom: 60px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.new-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.new-project-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.new-project-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.new-project-preview {
+  position: relative;
+  overflow: hidden;
+  height: 300px;
+}
+
+.new-project-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.new-project-item:hover .new-project-preview img {
+  transform: scale(1.05);
+}
+
+.new-project-info {
+  padding: 30px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+}
+
+.view-new-project-btn {
+  background: transparent;
+  border: 2px solid var(--brand-primary);
+  color: var(--brand-primary);
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.view-new-project-btn:hover {
+  background: var(--brand-primary);
+  color: white;
+  transform: translateY(-2px);
+}
+
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .new-projects-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .new-project-preview {
+    height: 250px;
+  }
+  
+  .new-project-info {
+    padding: 20px;
+    min-height: 80px;
+  }
+  
+  /* 모바일에서 기획서 이미지가 잘리지 않도록 개선 */
+  .new-project-preview img {
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+  
+  .view-new-project-btn {
+    padding: 10px 25px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .new-projects {
+    padding: 60px 0;
+  }
+  
+  .new-projects h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+  }
+  
+  .new-project-preview {
+    height: 200px;
+  }
+  
+  .new-project-info {
+    padding: 15px;
+    min-height: 70px;
+  }
+  
+  .view-new-project-btn {
+    padding: 8px 20px;
+    font-size: 0.85rem;
+  }
 }
